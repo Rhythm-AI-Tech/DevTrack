@@ -23,8 +23,8 @@
   gap: 8px;
 }
 
-.sidebar-nav p,
-.sidebar-bottom p {
+.sidebar-nav a,
+.sidebar-bottom a {
   margin: 0;
   padding: 12px 14px;
   border-radius: 8px;
@@ -32,8 +32,8 @@
   cursor: pointer;
 }
 
-.sidebar-nav p:hover,
-.sidebar-bottom p:hover {
+.sidebar-nav a:hover,
+.sidebar-bottom a:hover {
   background: #1f2937;
 }
 
@@ -44,4 +44,10 @@
 
 .sidebar-bottom {
   margin-top: auto;
+}
+
+.sidebar-nav a,
+.sidebar-bottom a {
+  text-decoration: none;
+  color: inherit;
 }
