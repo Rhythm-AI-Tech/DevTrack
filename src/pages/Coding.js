@@ -1,10 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { problemSolved, problemRemoved } from "../features/coding/codingSlice";
+import { problemSolved, problemRemoved, fetchProblems } from "../features/coding/codingSlice";
 import selectProblems from "../features/coding/codingSelectors";
+import { useEffect } from "react";
+ 
 
 function Coding() {
   const dispatch = useDispatch();
   const problems = useSelector(selectProblems);
+  useEffect(() => {
+    dispatch(fetchProblems());
+  }, [dispatch]);
   return (
     <div>
       <h1>Coding</h1>
