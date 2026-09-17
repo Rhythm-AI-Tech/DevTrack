@@ -1,0 +1,249 @@
+/* =========================
+   Coding Page
+========================= */
+
+.coding-page {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.coding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.coding-header h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.coding-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.coding-header select {
+  padding: 10px 36px 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   Stats
+========================= */
+
+.coding-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.coding-stat-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coding-stat-card span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.coding-stat-card strong {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   Sections
+========================= */
+
+.recent-section,
+.revision-section {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.section-heading button {
+  border: none;
+  background: transparent;
+  color: #3f3b95;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.section-heading button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   Recent Activity
+========================= */
+
+.problem-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.problem-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 140px;
+  align-items: center;
+  padding: 16px 4px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.problem-row:first-child {
+  border-top: none;
+}
+
+.problem-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.problem-row strong {
+  font-size: 15px;
+}
+
+.problem-row span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================
+   Revision Queue
+========================= */
+
+.revision-section {
+  margin-bottom: 0;
+}
+
+.revision-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.revision-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 8px;
+  border-top: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.revision-item:first-child {
+  border-top: none;
+}
+
+.revision-item span:first-child {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.revision-item span:last-child {
+  color: #6b7280;
+  font-size: 18px;
+}
+
+.revision-item:hover {
+  background: #f8f8fc;
+}
+
+
+/* =========================
+   Loading / Error
+========================= */
+
+.coding-page > p {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 900px) {
+  .coding-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .problem-row {
+    grid-template-columns: 1fr 100px 120px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .coding-page {
+    padding: 24px;
+  }
+
+  .coding-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .coding-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .problem-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

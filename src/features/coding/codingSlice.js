@@ -9,10 +9,18 @@ const fetchProblems = createAsyncThunk(
                     {
                         name: "Two Sum",
                         difficulty: "Easy",
+                        platform: "LeetCode",
+                        topic: ["hashmap", "array"],
+                        solvedAt: "2026-09-17",
+                        problemUrl: "https://leetcode.com/problems/two-sum/description/"
                     },
                     {
                         name: "Binary Search",
                         difficulty: "Easy",
+                        platform: "LeetCode",
+                        topic: ["array"],
+                        solvedAt: "2026-07-01",
+                        problemUrl: "https://leetcode.com/problems/binary-search/description/"
                     },
                 ]);
             }, 2000);
