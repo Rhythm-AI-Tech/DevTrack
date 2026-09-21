@@ -247,3 +247,53 @@
     gap: 12px;
   }
 }
+
+.problem-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.problem-row:hover {
+  background: #f8f8fc;
+}
+
+.empty-state {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.coding-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coding-filters input {
+  width: 220px;
+  padding: 10px 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  font-size: 14px;
+  outline: none;
+}
+
+.coding-filters input:focus {
+  border-color: #3f3b95;
+}
+
+.coding-filters select {
+  padding: 10px 36px 10px 14px;
+}

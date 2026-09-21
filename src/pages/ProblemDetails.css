@@ -1,0 +1,249 @@
+.problem-details {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+
+/* =========================
+   Back button
+========================= */
+
+.back-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 32px;
+
+  font-size: 14px;
+  color: #6b7280;
+
+  cursor: pointer;
+}
+
+.back-button:hover {
+  color: #111827;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.problem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.problem-header h1 {
+  margin: 0 0 10px;
+
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.problem-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================
+   Open problem button
+========================= */
+
+.solve-button {
+  padding: 11px 18px;
+
+  background: #3f3b95;
+  color: white;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: background 0.15s ease;
+}
+
+.solve-button:hover {
+  background: #343079;
+}
+
+
+/* =========================
+   Sections
+========================= */
+
+.problem-section {
+  padding: 30px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.problem-section h2 {
+  margin: 0 0 8px;
+
+  font-size: 20px;
+}
+
+.problem-section p {
+  margin: 0;
+
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================
+   Topics
+========================= */
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 16px;
+}
+
+.topic-tag {
+  padding: 6px 10px;
+
+  background: #f1f1f7;
+  color: #3f3b95;
+
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   Notes
+========================= */
+
+.notes-box {
+  min-height: 100px;
+
+  margin-top: 16px;
+  padding: 18px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  background: #fafafa;
+}
+
+.notes-box p {
+  color: #9ca3af;
+}
+
+
+/* =========================
+   Revision
+========================= */
+
+.section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 22px;
+}
+
+.revision-button {
+  padding: 9px 15px;
+
+  border: 1px solid #3f3b95;
+  border-radius: 7px;
+
+  background: white;
+  color: #3f3b95;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.revision-button:hover {
+  background: #f5f4ff;
+}
+
+.revision-info {
+  display: flex;
+  gap: 70px;
+}
+
+.revision-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.revision-info span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.revision-info strong {
+  font-size: 16px;
+}
+
+
+/* =========================
+   Not found
+========================= */
+
+.problem-not-found {
+  padding: 40px;
+}
+
+.problem-not-found button {
+  padding: 9px 15px;
+  border: none;
+  border-radius: 7px;
+
+  background: #3f3b95;
+  color: white;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 700px) {
+
+  .problem-details {
+    padding: 24px;
+  }
+
+  .problem-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .section-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .revision-info {
+    gap: 40px;
+  }
+}

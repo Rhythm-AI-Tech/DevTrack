@@ -7,6 +7,7 @@ const fetchProblems = createAsyncThunk(
             setTimeout(() => {
                 resolve([
                     {
+                        id: "two-sum",
                         name: "Two Sum",
                         difficulty: "Easy",
                         platform: "LeetCode",
@@ -15,6 +16,7 @@ const fetchProblems = createAsyncThunk(
                         problemUrl: "https://leetcode.com/problems/two-sum/description/"
                     },
                     {
+                        id: "binary-search",
                         name: "Binary Search",
                         difficulty: "Easy",
                         platform: "LeetCode",
@@ -51,14 +53,17 @@ const codingSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchProblems.pending, (state) => {
+                 
                 state.status = "loading";
                 state.error = null;
             })
             .addCase(fetchProblems.fulfilled, (state, action) => {
+                 
                 state.status = "succeeded";
                 state.problems = action.payload;
             })
             .addCase(fetchProblems.rejected, (state, action) => {
+                 
                 state.status = "failed";
                 state.error = action.error.message;
             });
