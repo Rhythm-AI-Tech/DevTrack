@@ -6,86 +6,102 @@
 
 
 /* =========================
-   Back button
+   BACK BUTTON
 ========================= */
 
 .back-button {
   border: none;
   background: transparent;
   padding: 0;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 
+  color: #555;
   font-size: 14px;
-  color: #6b7280;
+  font-weight: 500;
 
   cursor: pointer;
+
+  transition: color 0.2s ease;
 }
 
 .back-button:hover {
-  color: #111827;
+  color: #3f3b95;
 }
 
 
 /* =========================
-   Header
+   HEADER
 ========================= */
 
 .problem-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  padding-bottom: 32px;
+  gap: 30px;
+
+  padding-bottom: 30px;
+
   border-bottom: 1px solid #e5e7eb;
 }
 
 .problem-header h1 {
   margin: 0 0 10px;
 
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 700;
+
+  color: #171717;
 }
 
 .problem-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
 
-  color: #6b7280;
+  color: #777;
   font-size: 14px;
 }
 
 
 /* =========================
-   Open problem button
+   OPEN PROBLEM
 ========================= */
 
 .solve-button {
-  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+
+  padding: 10px 16px;
+
+  border-radius: 8px;
 
   background: #3f3b95;
   color: white;
 
-  border-radius: 8px;
-
   text-decoration: none;
+
   font-size: 14px;
   font-weight: 600;
 
-  transition: background 0.15s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .solve-button:hover {
-  background: #343079;
+  transform: translateY(-1px);
+  opacity: 0.9;
 }
 
 
 /* =========================
-   Sections
+   SECTIONS
 ========================= */
 
 .problem-section {
   padding: 30px 0;
+
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -93,157 +109,295 @@
   margin: 0 0 8px;
 
   font-size: 20px;
+  color: #222;
 }
 
 .problem-section p {
   margin: 0;
 
-  color: #6b7280;
+  color: #777;
   font-size: 14px;
 }
 
 
 /* =========================
-   Topics
+   TOPICS
 ========================= */
 
 .topic-list {
   display: flex;
   flex-wrap: wrap;
+
   gap: 8px;
 
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
 .topic-tag {
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
 
-  background: #f1f1f7;
-  color: #3f3b95;
+  padding: 6px 10px;
 
   border-radius: 6px;
 
-  font-size: 13px;
-  font-weight: 500;
-}
-
-
-/* =========================
-   Notes
-========================= */
-
-.notes-box {
-  min-height: 100px;
-
-  margin-top: 16px;
-  padding: 18px;
-
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-
-  background: #fafafa;
-}
-
-.notes-box p {
-  color: #9ca3af;
-}
-
-
-/* =========================
-   Revision
-========================= */
-
-.section-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 22px;
-}
-
-.revision-button {
-  padding: 9px 15px;
-
-  border: 1px solid #3f3b95;
-  border-radius: 7px;
-
-  background: white;
+  background: #f1f0fa;
   color: #3f3b95;
 
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.revision-button:hover {
-  background: #f5f4ff;
-}
-
-.revision-info {
-  display: flex;
-  gap: 70px;
-}
-
-.revision-info div {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.revision-info span {
-  color: #6b7280;
   font-size: 13px;
-}
-
-.revision-info strong {
-  font-size: 16px;
+  font-weight: 600;
 }
 
 
 /* =========================
-   Not found
+   NOTES
 ========================= */
 
-.problem-not-found {
-  padding: 40px;
+.notes-input {
+  display: block;
+
+  width: 100%;
+  min-height: 150px;
+
+  margin-top: 18px;
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #dcdcdc;
+  border-radius: 9px;
+
+  background: #fff;
+
+  color: #222;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+
+  resize: vertical;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.problem-not-found button {
-  padding: 9px 15px;
+.notes-input::placeholder {
+  color: #aaa;
+}
+
+.notes-input:focus {
+  border-color: #3f3b95;
+
+  box-shadow: 0 0 0 3px rgba(63, 59, 149, 0.08);
+}
+
+
+/* =========================
+   NOTES ACTIONS
+========================= */
+
+.notes-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 12px;
+}
+
+.save-notes-button {
   border: none;
+
+  padding: 9px 16px;
+
   border-radius: 7px;
 
   background: #3f3b95;
   color: white;
 
+  font-size: 14px;
+  font-weight: 600;
+
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.save-notes-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.save-notes-button:active {
+  transform: translateY(0);
+}
+
+.saved-message {
+  color: #4b6b4b;
+  font-size: 13px;
 }
 
 
 /* =========================
-   Responsive
+   REVISION
+========================= */
+
+.revision-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px;
+
+  margin-top: 20px;
+}
+
+.revision-stat {
+  padding: 18px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+
+  background: #fafafa;
+}
+
+.revision-stat span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #777;
+  font-size: 13px;
+}
+
+.revision-stat strong {
+  color: #222;
+  font-size: 18px;
+}
+
+
+/* =========================
+   REVISION ACTIONS
+========================= */
+
+.revision-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.revision-button,
+.revision-complete-button {
+  padding: 9px 15px;
+
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.revision-button {
+  border: none;
+
+  background: #3f3b95;
+  color: white;
+}
+
+.revision-button.secondary {
+  background: #f1f1f1;
+  color: #444;
+
+  border: 1px solid #ddd;
+}
+
+.revision-complete-button {
+  border: 1px solid #3f3b95;
+
+  background: white;
+  color: #3f3b95;
+}
+
+.revision-button:hover,
+.revision-complete-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+
+/* =========================
+   REVISION FEEDBACK
+========================= */
+
+.revision-feedback {
+  margin-top: 14px !important;
+
+  color: #4b6b4b !important;
+
+  font-size: 13px !important;
+  font-weight: 500;
+}
+
+
+/* =========================
+   NOT FOUND
+========================= */
+
+.problem-not-found {
+  max-width: 700px;
+
+  margin: 100px auto;
+
+  text-align: center;
+}
+
+.problem-not-found h2 {
+  margin-bottom: 20px;
+
+  color: #222;
+}
+
+
+/* =========================
+   RESPONSIVE
 ========================= */
 
 @media (max-width: 700px) {
-
   .problem-details {
-    padding: 24px;
+    padding: 25px 20px;
   }
 
   .problem-header {
-    flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    flex-direction: column;
   }
 
-  .section-title-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  .problem-header h1 {
+    font-size: 26px;
+  }
+
+  .solve-button {
+    width: fit-content;
   }
 
   .revision-info {
-    gap: 40px;
+    grid-template-columns: 1fr;
+  }
+
+  .notes-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
