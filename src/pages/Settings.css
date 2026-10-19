@@ -1,0 +1,792 @@
+
+/* =====================================================
+   DEVTRACK — SETTINGS
+   Responsive platform integrations
+   Light theme · Purple accents · Clean cards
+===================================================== */
+
+.settings-integrations-page {
+  width: 100%;
+  max-width: 1440px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 30px 32px 48px;
+  color: #1d2939;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+.settings-integrations-page *,
+.settings-integrations-page *::before,
+.settings-integrations-page *::after {
+  box-sizing: border-box;
+}
+
+/* -------------------------
+   Page heading
+------------------------- */
+
+.settings-integrations-page .settings-heading {
+  margin: 0 0 28px;
+}
+
+.settings-integrations-page .settings-eyebrow {
+  display: block;
+  margin-bottom: 9px;
+  color: #6d5bd0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.settings-integrations-page .settings-heading h1 {
+  margin: 0;
+  color: #182234;
+  font-size: clamp(26px, 2.5vw, 34px);
+  font-weight: 750;
+  letter-spacing: -0.9px;
+  line-height: 1.25;
+}
+
+.settings-integrations-page .settings-heading p {
+  margin: 9px 0 0;
+  color: #758196;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* -------------------------
+   Summary statistics
+------------------------- */
+
+.settings-integrations-page .integration-overview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 36px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 28px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid #e8ebf2;
+}
+
+.settings-integrations-page .integration-overview > div {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 110px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.settings-integrations-page .integration-overview span {
+  color: #778398;
+  font-size: 12px;
+  font-weight: 550;
+  line-height: 1.5;
+}
+
+.settings-integrations-page .integration-overview strong {
+  color: #1c293b;
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+/* -------------------------
+   Platform grid
+------------------------- */
+
+.settings-integrations-page .integration-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* -------------------------
+   Platform cards
+------------------------- */
+
+.settings-integrations-page .integration-card {
+  min-width: 0;
+  max-width: 100%;
+  padding: 23px;
+  border: 1px solid #e5e9f2;
+  border-radius: 17px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(25, 39, 68, 0.025);
+  overflow-wrap: anywhere;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.settings-integrations-page .integration-card:hover {
+  border-color: #d9d4f5;
+  background: #ffffff;
+  box-shadow: 0 7px 22px rgba(25, 39, 68, 0.055);
+}
+
+/* -------------------------
+   Platform heading and logo
+------------------------- */
+
+.settings-integrations-page .settings-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 23px;
+}
+
+.settings-integrations-page .settings-platform-mark {
+  display: flex;
+  flex: 0 0 46px;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #222630;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.settings-integrations-page .settings-platform-title {
+  flex: 1 1 100px;
+  min-width: 0;
+}
+
+.settings-integrations-page .settings-platform-title h2 {
+  margin: 0;
+  color: #1c2738;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-platform-title p {
+  margin: 5px 0 0;
+  color: #8590a2;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* -------------------------
+   Connection status
+------------------------- */
+
+.settings-integrations-page .settings-status {
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: #f0f2f6;
+  color: #727e92;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-status > span {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9aa4b5;
+}
+
+.settings-integrations-page .settings-status.connected {
+  background: #e8f8ef;
+  color: #218653;
+}
+
+.settings-integrations-page .settings-status.connected > span {
+  background: #26a269;
+}
+
+.settings-integrations-page .settings-status.public-status {
+  background: #fff5df;
+  color: #956817;
+}
+
+.settings-integrations-page .settings-status.public-status > span {
+  background: #e8ad3c;
+}
+
+/* -------------------------
+   Username connection form
+------------------------- */
+
+.settings-integrations-page .settings-connect-form {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.settings-integrations-page .settings-connect-form > label {
+  display: block;
+  margin: 0 0 10px;
+  color: #354157;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.settings-integrations-page .settings-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.settings-integrations-page .settings-input-row input {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  height: 46px;
+  padding: 0 13px;
+  border: 1px solid #dce2ed;
+  border-radius: 11px;
+  outline: none;
+  background: #ffffff;
+  color: #253247;
+  font-family: inherit;
+  font-size: 13px;
+  box-shadow: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.settings-integrations-page .settings-input-row input::placeholder {
+  color: #98a2b3;
+}
+
+.settings-integrations-page .settings-input-row input:focus {
+  border-color: #8170dd;
+  box-shadow: 0 0 0 3px rgba(117, 99, 216, 0.11);
+}
+
+.settings-integrations-page .settings-input-row button,
+.settings-integrations-page .settings-primary-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid #6d5bd0;
+  border-radius: 11px;
+  background: #6d5bd0;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.settings-integrations-page .settings-input-row button:hover,
+.settings-integrations-page .settings-primary-button:hover {
+  border-color: #5947bd;
+  background: #5947bd;
+}
+
+.settings-integrations-page .settings-input-row button:active,
+.settings-integrations-page .settings-primary-button:active {
+  transform: translateY(1px);
+}
+
+.settings-integrations-page button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Consent is intentionally removed from the UI */
+
+.settings-integrations-page .integration-consent {
+  display: none !important;
+}
+
+/* -------------------------
+   Connected profile details
+------------------------- */
+
+.settings-integrations-page .settings-connected-details {
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.settings-integrations-page .settings-profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 20px;
+}
+
+.settings-integrations-page .settings-profile > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.settings-integrations-page .settings-profile strong {
+  color: #273449;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-profile span {
+  color: #78859a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.settings-integrations-page .settings-profile a,
+.settings-integrations-page .integration-connected a,
+.settings-integrations-page .connected-account a {
+  color: #6655ca;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-profile a:hover,
+.settings-integrations-page .integration-connected a:hover,
+.settings-integrations-page .connected-account a:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------
+   Platform statistics
+------------------------- */
+
+.settings-integrations-page .integration-stats,
+.settings-integrations-page .settings-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 12px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 20px;
+  padding: 18px 0;
+  border-top: 1px solid #edf0f5;
+  border-bottom: 1px solid #edf0f5;
+  background: transparent;
+  box-shadow: none;
+}
+
+.settings-integrations-page .integration-stats > div,
+.settings-integrations-page .settings-stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.settings-integrations-page .integration-stats strong,
+.settings-integrations-page .settings-stats strong {
+  display: block;
+  max-width: 100%;
+  color: #202a3b;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.settings-integrations-page .integration-stats span,
+.settings-integrations-page .settings-stats span {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  color: #8490a2;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* -------------------------
+   Verification panel
+------------------------- */
+
+.settings-integrations-page .settings-verification-panel,
+.settings-integrations-page .verification-panel,
+.settings-integrations-page .integration-verification {
+  width: 100%;
+  min-width: 0;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #e8e5fa;
+  border-radius: 12px;
+  background: #faf9ff;
+  box-shadow: none;
+}
+
+.settings-integrations-page .settings-verification-panel h3,
+.settings-integrations-page .verification-panel h3,
+.settings-integrations-page .integration-verification h3 {
+  margin: 0 0 8px;
+  color: #253148;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.settings-integrations-page .settings-verification-panel p,
+.settings-integrations-page .verification-panel p,
+.settings-integrations-page .integration-verification p {
+  color: #748095;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-verification-panel code,
+.settings-integrations-page .verification-panel code,
+.settings-integrations-page .integration-verification code {
+  display: inline-block;
+  max-width: 100%;
+  padding: 8px 10px;
+  border-radius: 7px;
+  background: #efedfb;
+  color: #5947bd;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* -------------------------
+   Action buttons
+------------------------- */
+
+.settings-integrations-page .settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 18px;
+}
+
+.settings-integrations-page .settings-actions button,
+.settings-integrations-page .settings-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid #e0e4ed;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #344057;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.settings-integrations-page .settings-actions button:first-child {
+  border-color: #6d5bd0;
+  background: #6d5bd0;
+  color: #ffffff;
+}
+
+.settings-integrations-page .settings-actions button:first-child:hover {
+  border-color: #5947bd;
+  background: #5947bd;
+}
+
+.settings-integrations-page .settings-actions button.settings-secondary:hover,
+.settings-integrations-page .settings-secondary-button:hover {
+  border-color: #c9c2f3;
+  background: #f8f7ff;
+}
+
+/* -------------------------
+   Manual tracking
+------------------------- */
+
+.settings-integrations-page .integration-manual {
+  width: 100%;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.settings-integrations-page .integration-manual p {
+  margin: 0 0 16px;
+  color: #778397;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.settings-integrations-page .settings-secondary-button {
+  min-height: 42px;
+}
+
+/* -------------------------
+   Notices and errors
+------------------------- */
+
+.settings-integrations-page .settings-notice {
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 13px 15px;
+  border: 1px solid #e4e8f0;
+  border-radius: 11px;
+  background: #ffffff;
+  color: #344057;
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.settings-integrations-page .settings-notice.error {
+  border-color: #f2d0d0;
+  background: #fff6f6;
+  color: #b33c43;
+}
+
+.settings-integrations-page .settings-notice.success {
+  border-color: #cdebd9;
+  background: #f3fcf6;
+  color: #237c4a;
+}
+
+.settings-integrations-page .integration-error-text {
+  color: #bd424b;
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+/* Hide the old explanatory panel */
+
+.settings-integrations-page .settings-note-card {
+  display: none !important;
+}
+
+/* -------------------------
+   Loading
+------------------------- */
+
+.settings-integrations-page .settings-loading {
+  padding: 24px 0;
+  color: #7a8598;
+  font-size: 14px;
+}
+
+/* =====================================================
+   RESPONSIVE LAYOUT
+===================================================== */
+
+/* Medium screens and tablets */
+
+@media (max-width: 1100px) {
+  .settings-integrations-page {
+    padding: 25px 22px 40px;
+  }
+
+  .settings-integrations-page .integration-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .settings-integrations-page .integration-card {
+    padding: 19px;
+  }
+
+  .settings-integrations-page .settings-card-heading {
+    gap: 10px;
+  }
+
+  .settings-integrations-page .settings-platform-title h2 {
+    font-size: 17px;
+  }
+
+  .settings-integrations-page .settings-status {
+    font-size: 10px;
+  }
+
+  .settings-integrations-page .integration-stats,
+  .settings-integrations-page .settings-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Narrow screens */
+
+@media (max-width: 760px) {
+  .settings-integrations-page {
+    padding: 22px 18px 36px;
+  }
+
+  .settings-integrations-page .integration-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .settings-integrations-page .integration-card {
+    padding: 21px;
+  }
+
+  .settings-integrations-page .settings-platform-title h2 {
+    font-size: 19px;
+  }
+
+  .settings-integrations-page .settings-status {
+    font-size: 11px;
+  }
+
+  .settings-integrations-page .integration-stats,
+  .settings-integrations-page .settings-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Phones */
+
+@media (max-width: 480px) {
+  .settings-integrations-page {
+    padding: 19px 13px 30px;
+  }
+
+  .settings-integrations-page .settings-heading {
+    margin-bottom: 23px;
+  }
+
+  .settings-integrations-page .settings-heading h1 {
+    font-size: 26px;
+  }
+
+  .settings-integrations-page .settings-heading p {
+    font-size: 13px;
+  }
+
+  .settings-integrations-page .integration-overview {
+    gap: 18px 24px;
+    margin-bottom: 22px;
+    padding-bottom: 20px;
+  }
+
+  .settings-integrations-page .integration-overview > div {
+    flex: 1 1 90px;
+    min-width: 0;
+  }
+
+  .settings-integrations-page .integration-overview span {
+    font-size: 11px;
+  }
+
+  .settings-integrations-page .integration-overview strong {
+    font-size: 23px;
+  }
+
+  .settings-integrations-page .integration-card {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .settings-integrations-page .settings-card-heading {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .settings-integrations-page .settings-platform-mark {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .settings-integrations-page .settings-platform-title {
+    flex: 1 1 calc(100% - 60px);
+  }
+
+  .settings-integrations-page .settings-platform-title h2 {
+    font-size: 17px;
+  }
+
+  .settings-integrations-page .settings-status {
+    margin-left: 52px;
+  }
+
+  .settings-integrations-page .settings-input-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .settings-integrations-page .settings-input-row input {
+    flex: initial;
+    width: 100%;
+    height: 44px;
+  }
+
+  .settings-integrations-page .settings-input-row button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .settings-integrations-page .integration-stats,
+  .settings-integrations-page .settings-stats {
+    gap: 16px 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-integrations-page .integration-stats strong,
+  .settings-integrations-page .settings-stats strong {
+    font-size: 17px;
+  }
+
+  .settings-integrations-page .settings-actions {
+    gap: 8px;
+  }
+
+  .settings-integrations-page .settings-actions button {
+    flex: 1 1 auto;
+    padding: 0 12px;
+  }
+}

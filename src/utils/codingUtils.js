@@ -1,64 +1,94 @@
-export function getProblemsThisWeek(problems) {
+function localDateKey(value) {
+  if (!value) return null;
+
+  // The Coding page stores date-only strings as YYYY-MM-DD.
+  if (
+    typeof value === "string" &&
+    /^\d{4}-\d{2}-\d{2}$/.test(value)
+  ) {
+    return value;
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function todayKey() {
   const today = new Date();
 
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
+  return [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+function shiftDay(dateKey, amount) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const date = new Date(year, month - 1, day, 12, 0, 0);
+
+  date.setDate(date.getDate() + amount);
+
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+export function getProblemsThisWeek(problems) {
+  const now = new Date();
+  const start = new Date(now);
+
+  // Sunday-based week, consistent with the previous DevTrack behavior.
+  start.setDate(now.getDate() - now.getDay());
+  start.setHours(0, 0, 0, 0);
+
+  const startKey = localDateKey(start);
+  const endKey = todayKey();
 
   return problems.filter((problem) => {
-    const solvedDate = new Date(problem.solvedAt);
+    const key = localDateKey(problem.solvedAt);
 
-    return solvedDate >= startOfWeek && solvedDate <= today;
+    return key && key >= startKey && key <= endKey;
   });
 }
 
-
 export function getCurrentStreak(problems) {
-  const solvedDates = [
-    ...new Set(
-      problems.map((problem) => problem.solvedAt)
-    ),
-  ].sort().reverse();
+  const solvedDays = new Set(
+    problems
+      .map((problem) => localDateKey(problem.solvedAt))
+      .filter(Boolean)
+  );
 
-  if (solvedDates.length === 0) {
+  if (solvedDays.size === 0) {
     return 0;
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = todayKey();
 
-  const todayString = today.toISOString().split("T")[0];
+  let cursor = solvedDays.has(today)
+    ? today
+    : shiftDay(today, -1);
 
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const yesterdayString =
-    yesterday.toISOString().split("T")[0];
-
-  let currentDate;
-
-  if (solvedDates.includes(todayString)) {
-    currentDate = today;
-  } else if (solvedDates.includes(yesterdayString)) {
-    currentDate = yesterday;
-  } else {
+  if (!solvedDays.has(cursor)) {
     return 0;
   }
 
   let streak = 0;
 
-  for (const date of solvedDates) {
-    const expectedDate =
-      currentDate.toISOString().split("T")[0];
-
-    if (date !== expectedDate) {
-      break;
-    }
-
+  while (solvedDays.has(cursor)) {
     streak++;
-
-    currentDate = new Date(currentDate);
-    currentDate.setDate(currentDate.getDate() - 1);
+    cursor = shiftDay(cursor, -1);
   }
 
   return streak;

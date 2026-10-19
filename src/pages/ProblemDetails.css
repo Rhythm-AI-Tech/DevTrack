@@ -1,403 +1,496 @@
+
 .problem-details {
-  max-width: 1000px;
+  width: 100%;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 30px 36px 56px;
+  box-sizing: border-box;
+  color: #1e293b;
 }
 
+.problem-details *,
+.problem-details *::before,
+.problem-details *::after {
+  box-sizing: border-box;
+}
 
-/* =========================
-   BACK BUTTON
-========================= */
-
+/* Back navigation */
 .back-button {
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
   background: transparent;
   padding: 0;
-  margin-bottom: 28px;
-
-  color: #555;
+  margin: 0 0 28px;
+  color: #64748b;
+  font: inherit;
   font-size: 14px;
-  font-weight: 500;
-
+  font-weight: 600;
   cursor: pointer;
-
-  transition: color 0.2s ease;
+  transition: color 160ms ease;
 }
 
 .back-button:hover {
-  color: #3f3b95;
+  color: #6554d9;
 }
 
+/* Small section labels */
+.detail-eyebrow {
+  display: block;
+  margin-bottom: 10px;
+  color: #6b5ce7;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
 
-/* =========================
-   HEADER
-========================= */
-
+/* Problem header */
 .problem-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
+  padding: 0 0 30px;
+  border-bottom: 1px solid #e3e8f1;
+}
 
-  gap: 30px;
-
-  padding-bottom: 30px;
-
-  border-bottom: 1px solid #e5e7eb;
+.problem-heading-copy {
+  min-width: 0;
 }
 
 .problem-header h1 {
-  margin: 0 0 10px;
-
-  font-size: 32px;
-  font-weight: 700;
-
-  color: #171717;
+  margin: 0 0 12px;
+  color: #1b2638;
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 750;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .problem-meta {
   display: flex;
   align-items: center;
-  gap: 9px;
-
-  color: #777;
-  font-size: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #748198;
+  font-size: 13px;
 }
 
+.difficulty-text {
+  font-weight: 700;
+}
 
-/* =========================
-   OPEN PROBLEM
-========================= */
+.difficulty-text.easy {
+  color: #159a6b;
+}
 
-.solve-button {
+.difficulty-text.medium {
+  color: #ce8a26;
+}
+
+.difficulty-text.hard {
+  color: #d95465;
+}
+
+/* Shared buttons */
+.solve-button,
+.save-notes-button,
+.revision-button,
+.revision-complete-button {
   display: inline-flex;
   align-items: center;
-
-  padding: 10px 16px;
-
-  border-radius: 8px;
-
-  background: #3f3b95;
-  color: white;
-
+  justify-content: center;
+  min-height: 43px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
   text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 600;
-
+  white-space: nowrap;
+  cursor: pointer;
   transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
-.solve-button:hover {
+.solve-button,
+.save-notes-button,
+.revision-button {
+  background: #6655dc;
+  color: #fff;
+}
+
+.solve-button:hover,
+.save-notes-button:hover:not(:disabled),
+.revision-button:hover:not(:disabled) {
+  background: #5544c7;
+  box-shadow: 0 4px 12px rgba(102, 85, 220, 0.16);
   transform: translateY(-1px);
-  opacity: 0.9;
 }
 
+.solve-button {
+  flex-shrink: 0;
+}
 
-/* =========================
-   SECTIONS
-========================= */
+.save-notes-button:disabled,
+.revision-button:disabled,
+.revision-complete-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
 
+/* Topic and notes sections */
 .problem-section {
-  padding: 30px 0;
+  min-width: 0;
+  padding: 28px 0;
+  border-bottom: 1px solid #e3e8f1;
+}
 
-  border-bottom: 1px solid #e5e7eb;
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
 }
 
 .problem-section h2 {
-  margin: 0 0 8px;
-
-  font-size: 20px;
-  color: #222;
+  margin: 0;
+  color: #202c40;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.3px;
+  line-height: 1.35;
 }
 
 .problem-section p {
-  margin: 0;
-
-  color: #777;
-  font-size: 14px;
+  margin: 9px 0 0;
+  color: #7b879b;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-
-/* =========================
-   TOPICS
-========================= */
+.detail-count,
+.notes-character-count {
+  flex-shrink: 0;
+  color: #8490a4;
+  font-size: 12px;
+}
 
 .topic-list {
   display: flex;
   flex-wrap: wrap;
-
-  gap: 8px;
-
-  margin-top: 18px;
+  gap: 9px;
+  margin-top: 16px;
 }
 
 .topic-tag {
   display: inline-flex;
   align-items: center;
-
-  padding: 6px 10px;
-
-  border-radius: 6px;
-
-  background: #f1f0fa;
-  color: #3f3b95;
-
-  font-size: 13px;
-  font-weight: 600;
+  padding: 7px 11px;
+  border: 1px solid #e2ddff;
+  border-radius: 8px;
+  background: #f4f2ff;
+  color: #5949c0;
+  font-size: 12px;
+  font-weight: 650;
 }
 
+.detail-empty {
+  margin: 0 !important;
+  color: #8a96aa !important;
+}
 
-/* =========================
-   NOTES
-========================= */
-
+/* Notes editor */
 .notes-input {
   display: block;
-
   width: 100%;
-  min-height: 150px;
-
-  margin-top: 18px;
-  padding: 14px;
-
-  box-sizing: border-box;
-
-  border: 1px solid #dcdcdc;
-  border-radius: 9px;
-
+  min-height: 170px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid #d8e0ed;
+  border-radius: 12px;
   background: #fff;
-
-  color: #222;
-
+  color: #243148;
   font-family: inherit;
   font-size: 14px;
-  line-height: 1.6;
-
+  line-height: 1.7;
   resize: vertical;
-
   outline: none;
-
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .notes-input::placeholder {
-  color: #aaa;
+  color: #9aa5b7;
 }
 
 .notes-input:focus {
-  border-color: #3f3b95;
-
-  box-shadow: 0 0 0 3px rgba(63, 59, 149, 0.08);
+  border-color: #8a7bf0;
+  box-shadow: 0 0 0 3px rgba(102, 85, 220, 0.1);
 }
 
-
-/* =========================
-   NOTES ACTIONS
-========================= */
-
-.notes-actions {
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-
-  margin-top: 12px;
-}
-
-.save-notes-button {
-  border: none;
-
-  padding: 9px 16px;
-
-  border-radius: 7px;
-
-  background: #3f3b95;
-  color: white;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.save-notes-button:hover {
-  transform: translateY(-1px);
-  opacity: 0.9;
-}
-
-.save-notes-button:active {
-  transform: translateY(0);
-}
-
-.saved-message {
-  color: #4b6b4b;
-  font-size: 13px;
-}
-
-
-/* =========================
-   REVISION
-========================= */
-
-.revision-info {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 16px;
-
-  margin-top: 20px;
-}
-
-.revision-stat {
-  padding: 18px;
-
-  border: 1px solid #e5e7eb;
-  border-radius: 9px;
-
-  background: #fafafa;
-}
-
-.revision-stat span {
-  display: block;
-
-  margin-bottom: 8px;
-
-  color: #777;
-  font-size: 13px;
-}
-
-.revision-stat strong {
-  color: #222;
-  font-size: 18px;
-}
-
-
-/* =========================
-   REVISION ACTIONS
-========================= */
-
+.notes-actions,
 .revision-actions {
   display: flex;
   flex-wrap: wrap;
-
+  align-items: center;
   gap: 10px;
-
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
-.revision-button,
-.revision-complete-button {
-  padding: 9px 15px;
+/* Success and error feedback */
+.detail-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 13px 15px;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
 
-  border-radius: 7px;
+.detail-notice.success {
+  color: #137a58;
+  background: #edfaf4;
+  border-color: #c9efdc;
+}
 
-  font-size: 14px;
-  font-weight: 600;
+.detail-notice.error {
+  color: #b42332;
+  background: #fff2f2;
+  border-color: #ffd5d8;
+}
 
-  cursor: pointer;
+/* Revision panel */
+.revision-section {
+  margin-top: 24px;
+  padding: 28px;
+  border: 1px solid #e1e7f0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(25, 40, 70, 0.035);
+}
 
+.revision-section .section-heading {
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.revision-section .section-heading > div {
+  min-width: 0;
+}
+
+.revision-section .section-heading h2 {
+  margin: 0;
+}
+
+.revision-section .section-heading p {
+  margin-top: 9px;
+}
+
+.revision-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 7px 12px;
+  border: 1px solid #e3e8f0;
+  border-radius: 999px;
+  background: #f7f8fb;
+  color: #69778d;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.revision-status.queued {
+  border-color: #cceedd;
+  background: #eaf8f0;
+  color: #16815a;
+}
+
+/* Revision statistics */
+.revision-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 0;
+}
+
+.revision-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 104px;
+  padding: 20px;
+  border: 1px solid #e3e8f1;
+  border-radius: 12px;
+  background: #fafbfe;
   transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
-.revision-button {
-  border: none;
+.revision-stat:hover {
+  border-color: #d7d1fb;
+  background: #fdfdff;
+}
 
-  background: #3f3b95;
-  color: white;
+.revision-stat span {
+  color: #8490a4;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.revision-stat strong {
+  color: #263349;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Revision actions */
+.revision-actions {
+  margin-top: 20px;
+  padding-top: 0;
+}
+
+.revision-button.secondary,
+.revision-complete-button {
+  border-color: #dce3ef;
+  background: #fff;
+  color: #4c42a4;
+}
+
+.revision-button.secondary:hover:not(:disabled),
+.revision-complete-button:hover:not(:disabled) {
+  border-color: #c9c0ff;
+  background: #f5f3ff;
 }
 
 .revision-button.secondary {
-  background: #f1f1f1;
-  color: #444;
-
-  border: 1px solid #ddd;
+  color: #536176;
 }
 
-.revision-complete-button {
-  border: 1px solid #3f3b95;
-
-  background: white;
-  color: #3f3b95;
-}
-
-.revision-button:hover,
-.revision-complete-button:hover {
-  transform: translateY(-1px);
-  opacity: 0.9;
-}
-
-
-/* =========================
-   REVISION FEEDBACK
-========================= */
-
-.revision-feedback {
-  margin-top: 14px !important;
-
-  color: #4b6b4b !important;
-
-  font-size: 13px !important;
-  font-weight: 500;
-}
-
-
-/* =========================
-   NOT FOUND
-========================= */
-
+/* Loading and not-found states */
 .problem-not-found {
   max-width: 700px;
-
-  margin: 100px auto;
-
+  margin: 70px auto;
+  padding: 28px;
   text-align: center;
+  color: #253148;
 }
 
-.problem-not-found h2 {
+.problem-not-found p {
   margin-bottom: 20px;
-
-  color: #222;
+  color: #7b879b;
+  font-size: 14px;
 }
 
+.detail-loading {
+  padding: 30px 0;
+  color: #718096;
+}
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 700px) {
+/* Tablet and mobile */
+@media (max-width: 760px) {
   .problem-details {
-    padding: 25px 20px;
+    padding: 22px 20px 40px;
   }
 
   .problem-header {
     align-items: flex-start;
     flex-direction: column;
+    gap: 18px;
   }
 
   .problem-header h1 {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .solve-button {
     width: fit-content;
   }
 
-  .revision-info {
-    grid-template-columns: 1fr;
+  .revision-section {
+    padding: 22px;
   }
 
-  .notes-actions {
-    align-items: flex-start;
+  .revision-info {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .revision-stat {
+    min-height: 88px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .problem-details {
+    padding: 18px 15px 32px;
+  }
+
+  .back-button {
+    margin-bottom: 22px;
+  }
+
+  .problem-section {
+    padding: 23px 0;
+  }
+
+  .section-heading {
+    gap: 12px;
+  }
+
+  .problem-section h2 {
+    font-size: 19px;
+  }
+
+  .revision-section {
+    padding: 18px 15px;
+    border-radius: 13px;
+  }
+
+  .revision-section .section-heading {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .revision-actions,
+  .notes-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .revision-actions > button,
+  .notes-actions > button {
+    width: 100%;
+  }
+
+  .notes-input {
+    min-height: 145px;
   }
 }
