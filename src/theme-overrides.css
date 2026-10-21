@@ -1,0 +1,380 @@
+/* DevTracker UI system: final, deliberate theme layer.
+   The existing views use a few legacy literal colors; this file normalizes them to
+   the shared design tokens without changing their component behavior. */
+
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] #root,
+:root[data-theme="dark"] .app,
+:root[data-theme="dark"] .main,
+:root[data-theme="dark"] .content {
+  background-color: #09090b !important;
+  color: #fafafa !important;
+}
+
+:root[data-theme="dark"] .content,
+:root[data-theme="dark"] .content .dt-dashboard,
+:root[data-theme="dark"] .content .coding-page,
+:root[data-theme="dark"] .content .workspace-page,
+:root[data-theme="dark"] .content .settings-page,
+:root[data-theme="dark"] .content .settings-integrations-page,
+:root[data-theme="dark"] .content .dsa-page,
+:root[data-theme="dark"] .content .projects-page,
+:root[data-theme="dark"] .content .goals-page {
+  color: #fafafa !important;
+}
+
+/* Workspace page defines its own legacy token set locally. Override those tokens at
+   the element that declares them, otherwise descendants keep white cards in dark mode. */
+:root[data-theme="dark"] .content .workspace-page {
+  --dt-ink: #fafafa !important;
+  --dt-muted: #a1a1aa !important;
+  --dt-line: #2f2f35 !important;
+  --dt-card: #18181b !important;
+  --surface: #18181b;
+  --surface-soft: #111114;
+  --text-main: #fafafa;
+  --text-muted: #a1a1aa;
+  --border: #2f2f35;
+  color: #fafafa !important;
+}
+
+/* Dark cards and panel surfaces across Dashboard, Coding, GitHub, DSA, Projects,
+   Goals and Settings. */
+:root[data-theme="dark"] .content .dt-stat-card,
+:root[data-theme="dark"] .content .dt-activity-card,
+:root[data-theme="dark"] .content .analytics-card,
+:root[data-theme="dark"] .content .analytics-chart-card,
+:root[data-theme="dark"] .content .platform-metrics-card,
+:root[data-theme="dark"] .content .coding-form,
+:root[data-theme="dark"] .content .coding-stat-card,
+:root[data-theme="dark"] .content .coding-table-wrap,
+:root[data-theme="dark"] .content .coding-list-card,
+:root[data-theme="dark"] .content .problem-card,
+:root[data-theme="dark"] .content .problem-details-card,
+:root[data-theme="dark"] .content .workspace-form,
+:root[data-theme="dark"] .content .workspace-panel,
+:root[data-theme="dark"] .content .workspace-empty,
+:root[data-theme="dark"] .content .project-card,
+:root[data-theme="dark"] .content .goal-card,
+:root[data-theme="dark"] .content .github-profile-card,
+:root[data-theme="dark"] .content .github-stat-grid > article,
+:root[data-theme="dark"] .content .repo-card,
+:root[data-theme="dark"] .content .dsa-summary > article,
+:root[data-theme="dark"] .content .dsa-topic-list,
+:root[data-theme="dark"] .content .settings-card,
+:root[data-theme="dark"] .content .integration-card,
+:root[data-theme="dark"] .content .integration-stat,
+:root[data-theme="dark"] .content .settings-notice,
+:root[data-theme="dark"] .content .devhub-section,
+:root[data-theme="dark"] .content .devhub-panel,
+:root[data-theme="dark"] .content .devhub-webhook-row,
+:root[data-theme="dark"] .content .devhub-badge-preview,
+:root[data-theme="dark"] .content .devhub-api-example,
+:root[data-theme="dark"] .content .stats-grid > div,
+:root[data-theme="dark"] .content .problem-list,
+:root[data-theme="dark"] .content .problem-row,
+:root[data-theme="dark"] .content .revision-list,
+:root[data-theme="dark"] .content .revision-item,
+:root[data-theme="dark"] .content .recent-section,
+:root[data-theme="dark"] .content .revision-section,
+:root[data-theme="dark"] .content .empty-state {
+  background-color: #18181b !important;
+  border-color: #2f2f35 !important;
+  color: #fafafa !important;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 16%);
+}
+
+/* Keep nested summary cells distinct from the surrounding cards. */
+:root[data-theme="dark"] .content .dt-breakdown-row,
+:root[data-theme="dark"] .content .platform-summary-number,
+:root[data-theme="dark"] .content .platform-difficulty-item,
+:root[data-theme="dark"] .content .platform-difficulty-track,
+:root[data-theme="dark"] .content .analytics-bar-track,
+:root[data-theme="dark"] .content .dt-progress-track,
+:root[data-theme="dark"] .content .workspace-empty.compact,
+:root[data-theme="dark"] .content .devhub-api-example {
+  background-color: #111114 !important;
+  border-color: #2f2f35 !important;
+}
+
+/* Headings and the numbers people actually need to read. */
+:root[data-theme="dark"] .content h1,
+:root[data-theme="dark"] .content h2,
+:root[data-theme="dark"] .content h3,
+:root[data-theme="dark"] .content h4,
+:root[data-theme="dark"] .content h5,
+:root[data-theme="dark"] .content h6,
+:root[data-theme="dark"] .content strong,
+:root[data-theme="dark"] .content .dt-stat-card h2,
+:root[data-theme="dark"] .content .github-stat-grid strong,
+:root[data-theme="dark"] .content .platform-summary-number strong,
+:root[data-theme="dark"] .content .stats-grid h2,
+:root[data-theme="dark"] .content .analytics-donut strong,
+:root[data-theme="dark"] .content .problem-title,
+:root[data-theme="dark"] .content .metric-value,
+:root[data-theme="dark"] .content .stat-value {
+  color: #fafafa !important;
+}
+
+/* Secondary copy. Explicitly scoped to the workspace so state/status colors and
+   the independent chat widget are not inadvertently flattened. */
+:root[data-theme="dark"] .content p,
+:root[data-theme="dark"] .content small,
+:root[data-theme="dark"] .content label,
+:root[data-theme="dark"] .content .workspace-eyebrow,
+:root[data-theme="dark"] .content .workspace-heading p,
+:root[data-theme="dark"] .content .workspace-section-heading p,
+:root[data-theme="dark"] .content .github-stat-grid span,
+:root[data-theme="dark"] .content .github-limitation,
+:root[data-theme="dark"] .content .repo-card p,
+:root[data-theme="dark"] .content .repo-card-meta,
+:root[data-theme="dark"] .content .dt-eyebrow,
+:root[data-theme="dark"] .content .dt-stat-label,
+:root[data-theme="dark"] .content .dt-stat-description,
+:root[data-theme="dark"] .content .dt-page-heading > div > p,
+:root[data-theme="dark"] .content .dt-section-heading p,
+:root[data-theme="dark"] .content .dt-dashboard-footer,
+:root[data-theme="dark"] .content .analytics-eyebrow,
+:root[data-theme="dark"] .content .analytics-card-heading p,
+:root[data-theme="dark"] .content .analytics-chart-key,
+:root[data-theme="dark"] .content .analytics-legend,
+:root[data-theme="dark"] .content .analytics-heatmap-footer,
+:root[data-theme="dark"] .content .platform-select-label,
+:root[data-theme="dark"] .content .platform-summary-number span,
+:root[data-theme="dark"] .content .dt-empty-note,
+:root[data-theme="dark"] .content .settings-heading p,
+:root[data-theme="dark"] .content .settings-platform-title p,
+:root[data-theme="dark"] .content .integration-overview span,
+:root[data-theme="dark"] .content .settings-page .settings-status,
+:root[data-theme="dark"] .content .devhub-footnote,
+:root[data-theme="dark"] .content .devhub-muted {
+  color: #a1a1aa !important;
+}
+
+:root[data-theme="dark"] .content .workspace-heading h1,
+:root[data-theme="dark"] .content .workspace-section-heading h2,
+:root[data-theme="dark"] .content .workspace-form-heading h2,
+:root[data-theme="dark"] .content .workspace-empty h2,
+:root[data-theme="dark"] .content .workspace-empty h3,
+:root[data-theme="dark"] .content .github-profile-card h2,
+:root[data-theme="dark"] .content .repo-card-heading a,
+:root[data-theme="dark"] .content .settings-heading h1,
+:root[data-theme="dark"] .content .settings-platform-title h2,
+:root[data-theme="dark"] .content .dt-page-heading h1,
+:root[data-theme="dark"] .content .dt-section-heading h2,
+:root[data-theme="dark"] .content .coding-header h1,
+:root[data-theme="dark"] .content .coding-form-heading h2,
+:root[data-theme="dark"] .content .analytics-card-heading h2 {
+  color: #fafafa !important;
+}
+
+/* Inputs/selects and secondary actions should look like controls, not white stickers. */
+:root[data-theme="dark"] .content input,
+:root[data-theme="dark"] .content textarea,
+:root[data-theme="dark"] .content select,
+:root[data-theme="dark"] .content .devhub-code-field,
+:root[data-theme="dark"] .content .devhub-secret-row input,
+:root[data-theme="dark"] .content .navbar-search input {
+  background-color: #111114 !important;
+  color: #fafafa !important;
+  border-color: #3f3f46 !important;
+}
+:root[data-theme="dark"] .content input::placeholder,
+:root[data-theme="dark"] .content textarea::placeholder {
+  color: #a1a1aa !important;
+  opacity: 1;
+}
+:root[data-theme="dark"] .content select option {
+  background: #18181b;
+  color: #fafafa;
+}
+:root[data-theme="dark"] .content .workspace-secondary,
+:root[data-theme="dark"] .content .dt-refresh-button,
+:root[data-theme="dark"] .content .settings-secondary,
+:root[data-theme="dark"] .content .settings-secondary-button,
+:root[data-theme="dark"] .content .coding-secondary-button {
+  background-color: #202024 !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .workspace-secondary:hover,
+:root[data-theme="dark"] .content .dt-refresh-button:hover:not(:disabled),
+:root[data-theme="dark"] .content .settings-secondary:hover,
+:root[data-theme="dark"] .content .settings-secondary-button:hover,
+:root[data-theme="dark"] .content .coding-secondary-button:hover {
+  background-color: #27272a !important;
+  border-color: #52525b !important;
+}
+:root[data-theme="dark"] .content .workspace-primary,
+:root[data-theme="dark"] .content .coding-primary-button,
+:root[data-theme="dark"] .content .settings-primary-button,
+:root[data-theme="dark"] .content .devhub-primary-button {
+  color: #ffffff !important;
+}
+
+/* Notices retain semantic status colors while meeting contrast requirements. */
+:root[data-theme="dark"] .content .workspace-alert,
+:root[data-theme="dark"] .content .coding-error,
+:root[data-theme="dark"] .content .dt-error {
+  background-color: #2a1518 !important;
+  border-color: #653038 !important;
+  color: #fecdd3 !important;
+}
+:root[data-theme="dark"] .content .workspace-alert p,
+:root[data-theme="dark"] .content .coding-error,
+:root[data-theme="dark"] .content .dt-error p {
+  color: #fecdd3 !important;
+}
+:root[data-theme="dark"] .content .coding-success {
+  background-color: #10251b !important;
+  border-color: #24563c !important;
+  color: #86efac !important;
+}
+:root[data-theme="dark"] .content .github-limitation {
+  border-color: #2f2f35 !important;
+  background-color: #111114 !important;
+}
+:root[data-theme="dark"] .content a:not(.workspace-primary):not(.settings-primary-button):not(.devhub-primary-button) {
+  color: #a5b4fc;
+}
+:root[data-theme="dark"] .content a:not(.workspace-primary):not(.settings-primary-button):not(.devhub-primary-button):hover {
+  color: #c7d2fe;
+}
+
+:root[data-theme="dark"] .sidebar {
+  background: #0d0d10 !important;
+  border-color: #2f2f35 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .sidebar a,
+:root[data-theme="dark"] .sidebar button { color: #a1a1aa; }
+:root[data-theme="dark"] .sidebar a.active,
+:root[data-theme="dark"] .sidebar a[aria-current="page"] {
+  background: rgba(99, 102, 241, .17) !important;
+  color: #c7d2fe !important;
+}
+:root[data-theme="dark"] .navbar {
+  background: rgba(17, 17, 20, .94) !important;
+  border-color: #2f2f35 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .navbar .navbar-icon-button,
+:root[data-theme="dark"] .navbar .navbar-profile-trigger,
+:root[data-theme="dark"] .navbar .navbar-popover,
+:root[data-theme="dark"] .navbar .profile-menu-item {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .navbar .navbar-profile-name,
+:root[data-theme="dark"] .navbar .navbar-streak,
+:root[data-theme="dark"] .navbar .popover-heading h3,
+:root[data-theme="dark"] .navbar .notification-empty strong,
+:root[data-theme="dark"] .navbar .profile-summary strong { color: #fafafa !important; }
+:root[data-theme="dark"] .navbar .popover-heading p,
+:root[data-theme="dark"] .navbar .notification-empty p,
+:root[data-theme="dark"] .navbar .profile-summary > div > span { color: #a1a1aa !important; }
+:root[data-theme="dark"] .navbar .profile-menu-item:hover { background: #27272a !important; }
+
+/* Auth pages use the same persisted preference as the app. These scoped rules protect
+   auth content from any workspace typography rules and preserve both theme variants. */
+.auth-page .auth-card,
+.auth-page .auth-form-side,
+.auth-page .hero-content,
+.auth-page .hero-content h1,
+.auth-page .form-heading h2,
+.auth-page .form-heading p,
+.auth-page .auth-card form label,
+.auth-page .auth-footer,
+.auth-page .auth-note,
+.auth-page .auth-form-top {
+  color: var(--text-primary, inherit);
+}
+.auth-page[data-theme="dark"] .auth-form-side {
+  background: #111114 !important;
+  color: #fafafa !important;
+}
+.auth-page[data-theme="dark"] .auth-card,
+.auth-page[data-theme="dark"] .form-heading h2 {
+  color: #fafafa !important;
+}
+.auth-page[data-theme="dark"] .form-heading p,
+.auth-page[data-theme="dark"] .auth-card form label,
+.auth-page[data-theme="dark"] .auth-note,
+.auth-page[data-theme="dark"] .auth-footer,
+.auth-page[data-theme="dark"] .auth-form-top {
+  color: #a1a1aa !important;
+}
+.auth-page[data-theme="dark"] .auth-card input {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+.auth-page[data-theme="dark"] .auth-card input::placeholder { color: #71717a !important; }
+.auth-page[data-theme="dark"] .auth-button { color: #ffffff !important; }
+.auth-page[data-theme="light"] .form-heading h2,
+.auth-page[data-theme="light"] .hero-content h1,
+.auth-page[data-theme="light"] .auth-card form label { color: #202b42 !important; }
+.auth-page[data-theme="light"] .form-heading p,
+.auth-page[data-theme="light"] .auth-note,
+.auth-page[data-theme="light"] .auth-footer,
+.auth-page[data-theme="light"] .auth-form-top { color: #667085 !important; }
+
+@media (max-width: 700px) {
+  :root[data-theme="dark"] .content .workspace-page,
+  :root[data-theme="dark"] .content .settings-integrations-page,
+  :root[data-theme="dark"] .content .coding-page,
+  :root[data-theme="dark"] .content .dt-dashboard { padding-left: 16px; padding-right: 16px; }
+}
+
+
+/* Consistent dark controls: the dashboard uses a custom menu, while form selects
+   keep the platform's native keyboard/accessibility behavior with a matching palette. */
+:root[data-theme="dark"] .content select {
+  appearance: none;
+  -webkit-appearance: none;
+  color-scheme: dark;
+  min-height: 40px;
+  padding: 8px 38px 8px 12px !important;
+  border: 1px solid #3f3f46 !important;
+  border-radius: 10px !important;
+  background-color: #18181b !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 20 20'%3E%3Cpath d='m5.5 7.5 4.5 4.5 4.5-4.5' fill='none' stroke='%23d4d4d8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 11px center !important;
+  color: #fafafa !important;
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .content select:focus {
+  border-color: #818cf8 !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(129 140 248 / 14%) !important;
+}
+
+:root[data-theme="dark"] .content select option {
+  background: #18181b;
+  color: #fafafa;
+}
+
+:root[data-theme="dark"] .content input,
+:root[data-theme="dark"] .content textarea {
+  color-scheme: dark;
+}
+
+:root[data-theme="dark"] .sidebar .logo { color: #fafafa !important; }
+:root[data-theme="dark"] .sidebar-nav a,
+:root[data-theme="dark"] .sidebar-bottom a { color: #a1a1aa !important; }
+:root[data-theme="dark"] .sidebar-nav a:hover,
+:root[data-theme="dark"] .sidebar-bottom a:hover { color: #fafafa !important; background: #18181b !important; }
+:root[data-theme="dark"] .sidebar-nav a.active,
+:root[data-theme="dark"] .sidebar-bottom a.active,
+:root[data-theme="dark"] .sidebar-nav a[aria-current="page"],
+:root[data-theme="dark"] .sidebar-bottom a[aria-current="page"] {
+  color: #fafafa !important;
+  background: linear-gradient(100deg, rgb(99 102 241 / 21%), rgb(99 102 241 / 9%)) !important;
+  border-color: rgb(129 140 248 / 42%) !important;
+  box-shadow: inset 3px 0 0 #818cf8 !important;
+}
