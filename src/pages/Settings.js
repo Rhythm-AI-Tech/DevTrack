@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Settings.css";
+import DeveloperIntegrationsHub from "../components/DeveloperIntegrationsHub";
+import DeveloperAchievements from "../components/DeveloperAchievements";
 
 const API_URL =
   process.env.REACT_APP_API_URL || "http://localhost:5000/api";
@@ -454,6 +456,9 @@ function Settings() {
         })}
       </div>
 
+      <DeveloperAchievements />
+
+      <DeveloperIntegrationsHub providers={providers} />
     </main>
   );
 }

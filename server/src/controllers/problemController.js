@@ -1,5 +1,6 @@
 
 const Problem = require("../models/Problem");
+const { deliverProblemCreated } = require("./webhookController");
 
 // GET /api/problems
 const getProblems = async (req, res) => {
@@ -60,6 +61,9 @@ const createProblem = async (req, res) => {
           ? topics.split(",").map((topic) => topic.trim()).filter(Boolean)
           : [],
     });
+
+    // Webhook delivery is best-effort and never blocks the problem-save response.
+    void deliverProblemCreated(req.user._id, problem);
 
     return res.status(201).json({
       success: true,

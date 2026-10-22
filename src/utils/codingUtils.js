@@ -49,7 +49,7 @@ export function getProblemsThisWeek(problems) {
   const now = new Date();
   const start = new Date(now);
 
-  // Sunday-based week, consistent with the previous DevTracker behavior.
+  // Sunday-based week, consistent with the previous DevTrack behavior.
   start.setDate(now.getDate() - now.getDay());
   start.setHours(0, 0, 0, 0);
 

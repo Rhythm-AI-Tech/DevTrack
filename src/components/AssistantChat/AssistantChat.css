@@ -4,7 +4,7 @@
 .assistant-launcher.is-open{width:52px;min-width:52px;height:52px;padding:0;font-size:26px}
 .assistant-launcher-spark{font-size:20px}.assistant-chat-panel{position:absolute;right:0;bottom:72px;display:flex;flex-direction:column;width:min(410px,calc(100vw - 28px));height:min(640px,calc(100dvh - 120px));overflow:hidden;border:1px solid var(--border,#30303a);border-radius:22px;background:var(--surface,#111114);color:var(--text-main,#f4f4f5);box-shadow:0 24px 80px rgba(0,0,0,.3);animation:assistant-enter .22s ease-out}
 .assistant-chat-header{display:flex;align-items:center;gap:12px;padding:17px 18px;border-bottom:1px solid var(--border,#30303a);background:var(--surface-soft,#18181b)}
-.assistant-avatar{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;overflow:hidden;border:1px solid rgba(129,140,248,.45);border-radius:13px;background:#fff}.assistant-avatar img{width:100%;height:100%;object-fit:cover}.assistant-launcher-avatar{width:32px;height:32px;object-fit:contain;border-radius:50%;background:#fff}
+.assistant-avatar{display:grid;place-items:center;width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,#8b5cf6,#4f46e5);color:white;font-size:23px}
 .assistant-heading{display:flex;flex:1;flex-direction:column;gap:3px}.assistant-heading strong{font-size:14px}.assistant-heading span{display:flex;align-items:center;gap:6px;color:var(--text-muted,#a1a1aa);font-size:11px}.assistant-heading i{width:6px;height:6px;border-radius:50%;background:#22c55e}
 .assistant-close{width:30px;height:30px;border:0;border-radius:9px;background:transparent;color:var(--text-muted,#a1a1aa);font-size:23px}.assistant-close:hover{background:var(--border,#30303a)}
 .assistant-chat-messages{display:flex;flex:1;flex-direction:column;gap:13px;overflow:auto;padding:18px 14px;scrollbar-width:thin}
@@ -14,49 +14,3 @@
 @keyframes assistant-enter{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes assistant-bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
 @media(max-width:520px){.assistant-chat-root{right:12px;bottom:12px}.assistant-chat-panel{bottom:64px;height:min(630px,calc(100dvh - 94px));width:calc(100vw - 24px)}.assistant-launcher{height:52px}.assistant-shortcuts button{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.assistant-chat-panel,.assistant-typing i{animation:none}.assistant-launcher{transition:none}}
-
-/* Premium assistant terminal polish */
-.assistant-chat-panel{border-color:rgba(129,140,248,.35);background:var(--surface,#111114);box-shadow:0 28px 90px rgba(0,0,0,.42),0 0 0 1px rgba(129,140,248,.06);backdrop-filter:blur(18px)}
-.assistant-chat-header{background:linear-gradient(115deg,rgba(99,102,241,.13),transparent 70%),var(--surface-soft,#18181b)}
-.assistant-heading strong{letter-spacing:-.02em}
-.assistant-heading span{font-size:10px;letter-spacing:.02em}
-.assistant-message p{box-shadow:0 4px 14px rgba(0,0,0,.05)}
-.assistant-message.user p{background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(139,92,246,.13));color:var(--text-main,#f4f4f5)}
-.assistant-chat-composer form:focus-within{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.12)}
-.assistant-shortcuts button{transition:background .16s ease,border-color .16s ease,color .16s ease}
-.assistant-shortcuts button:hover{background:rgba(129,140,248,.1)}
-:root[data-theme="light"] .assistant-chat-panel{background:#fff;color:#18181b;border-color:#d4d4d8}
-:root[data-theme="light"] .assistant-chat-header,:root[data-theme="light"] .assistant-chat-composer{background:#fafafa}
-:root[data-theme="light"] .assistant-message p,:root[data-theme="light"] .assistant-typing{background:#f4f4f5;border-color:#e4e4e7;color:#18181b}
-:root[data-theme="light"] .assistant-message.user p{background:#eeebff;color:#27205a}
-:root[data-theme="light"] .assistant-chat-composer form{background:#fff;border-color:#d4d4d8}
-:root[data-theme="light"] .assistant-chat-composer textarea{color:#18181b}
-
-/* Visibility and size refinements: slightly roomier assistant panel and a more visible mascot. */
-.assistant-chat-panel {
-  width: min(460px, calc(100vw - 28px));
-  height: min(700px, calc(100dvh - 110px));
-}
-.assistant-avatar {
-  width: 47px;
-  height: 47px;
-  flex-basis: 47px;
-}
-.assistant-avatar img {
-  object-fit: cover;
-  transform: scale(1.12);
-}
-.assistant-launcher-avatar {
-  width: 36px;
-  height: 36px;
-  transform: scale(1.08);
-}
-@media (max-width: 520px) {
-  .assistant-chat-panel {
-    width: calc(100vw - 24px);
-    height: min(680px, calc(100dvh - 94px));
-  }
-}
-
-/* Streaming responses render text as it arrives without introducing layout jumps. */
-.assistant-message.assistant:has(p:empty){display:none}.assistant-chat-messages{overflow-anchor:auto}

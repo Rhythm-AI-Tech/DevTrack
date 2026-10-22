@@ -171,16 +171,3 @@ a {
 :root[data-theme="dark"] .settings-status.disconnected{background:#27272a;color:#a1a1aa}
 :root[data-theme="dark"] .settings-platform-mark{background:#27272a;color:#c4b5fd}
 :root[data-theme="dark"] .settings-secondary,:root[data-theme="dark"] .settings-secondary-button,:root[data-theme="dark"] .coding-secondary-button{border-color:var(--border);background:var(--surface-soft);color:var(--text-main)}
-
-
-/* Mobile layout: preserve full-width workspace and reserve room for bottom navigation. */
-@media (max-width: 640px) {
-  html, body, #root { min-width: 320px; width: 100%; overflow-x: clip; }
-  .app { display: block; min-height: 100dvh; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
-  .main { width: 100%; min-width: 0; min-height: 100dvh; }
-  .content { width: 100%; min-width: 0; overflow-x: clip; }
-  .content > * { max-width: 100%; }
-  .stats-grid { grid-template-columns: minmax(0, 1fr); }
-  table { max-width: 100%; }
-}
-

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { apiRequest } from "../utils/api";
 import { invalidateDashboard } from "../features/dashboard/dashboardSlice";
@@ -16,8 +15,6 @@ const blankProject = () => ({
 
 function Projects() {
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
-  const focusProjectId = searchParams.get("focus");
 
   const [projects, setProjects] = useState([]);
   const [status, setStatus] = useState("loading");
@@ -44,15 +41,6 @@ function Projects() {
   useEffect(() => {
     load();
   }, []);
-  useEffect(() => {
-    if (status !== "ready" || !focusProjectId) return undefined;
-    const frame = window.requestAnimationFrame(() => {
-      const target = Array.from(document.querySelectorAll("[data-project-id]"))
-        .find((element) => element.getAttribute("data-project-id") === focusProjectId);
-      target?.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [status, focusProjectId, projects.length]);
 
   const updateForm = (field, value) =>
     setForm((previous) => ({
@@ -370,7 +358,7 @@ function Projects() {
       ) : (
         <section className="project-grid" aria-label="Projects">
           {projects.map((project) => (
-            <article className={`project-card${focusProjectId === String(project._id) ? " search-target-highlight" : ""}`} key={project._id} data-project-id={String(project._id)}>
+            <article className="project-card" key={project._id}>
               <div className="project-card-top">
                 <span className={`project-status ${project.status}`}>
                   {project.status.replace("-", " ")}

@@ -65,8 +65,8 @@ function Register() {
   return (
     <main className="auth-page" data-theme={theme}>
       <section className="auth-hero">
-        <Link to="/register" className="auth-brand" aria-label="DevTracker home">
-          <img src={devtrackLogo} alt="DevTracker" className="auth-brand-logo" />
+        <Link to="/register" className="auth-brand" aria-label="DevTrack home">
+          <img src={devtrackLogo} alt="DevTrack" className="auth-brand-logo" />
         </Link>
 
         <div className="hero-content">
@@ -129,7 +129,7 @@ function Register() {
                 <span>
                   <i /> All systems ready
                 </span>
-                <span>● DevTracker</span>
+                <span>● DevTrack</span>
               </div>
             </div>
 
@@ -169,7 +169,7 @@ function Register() {
           {/* Star icon removed */}
           <div className="form-heading">
             <h2>Create your account</h2>
-            <p>Start tracking your coding progress with DevTracker.</p>
+            <p>Start tracking your coding progress with DevTrack.</p>
           </div>
 
           {error && (
@@ -251,7 +251,7 @@ function Register() {
 
         <div className="form-bottom">
           <span>Made for curious minds.</span>
-          <span>DevTracker ©</span>
+          <span>DEVTRACK ©</span>
         </div>
       </section>
     </main>

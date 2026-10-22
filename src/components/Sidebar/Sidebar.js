@@ -22,7 +22,7 @@ function SidebarLink({ to, label, icon }) {
 function Sidebar() {
   return (
     <aside className="sidebar" aria-label="Primary navigation">
-      <h2 className="logo">DevTracker</h2>
+      <h2 className="logo">DevTrack</h2>
       <nav className="sidebar-nav" aria-label="Workspace">
         {links.map((link) => <SidebarLink key={link.to} {...link} />)}
       </nav>

@@ -1,12 +1,4 @@
 const { getProvider } = require("./platformRegistry");
-const {
-  parseLeetCodeSubmissionCalendar,
-  countSubmissionsByDay,
-  mergeDailyCounts,
-  buildRollingActivityCalendar,
-  trimDailyCounts,
-  utcDateKey,
-} = require("../utils/activityCalendar");
 
 const LEETCODE_ENDPOINT = "https://leetcode.com/graphql";
 const CODEFORCES_ENDPOINT = "https://codeforces.com/api";
@@ -173,58 +165,6 @@ function profileStatsFromLeetCode(profile) {
   };
 }
 
-
-async function fetchLeetCodeActivityCalendar(username, now = new Date()) {
-  const currentYear = now.getUTCFullYear();
-  const years = [currentYear - 1, currentYear];
-
-  const results = await Promise.allSettled(years.map(async (year) => {
-    const data = await leetcodeGraphQL(
-      `query devTrackUserCalendar($username: String!, $year: Int) {
-        matchedUser(username: $username) {
-          userCalendar(year: $year) {
-            activeYears
-            streak
-            totalActiveDays
-            submissionCalendar
-          }
-        }
-      }`,
-      { username, year }
-    );
-    const calendar = data?.matchedUser?.userCalendar;
-    if (!calendar) throw new Error(`LeetCode returned no activity calendar for ${year}.`);
-    return { year, calendar };
-  }));
-
-  const successful = results.filter((result) => result.status === "fulfilled").map((result) => result.value);
-  if (!successful.length) {
-    const firstError = results.find((result) => result.status === "rejected")?.reason;
-    throw firstError || new Error("LeetCode activity calendar is unavailable.");
-  }
-
-  const yearMaps = successful.map(({ calendar }) =>
-    parseLeetCodeSubmissionCalendar(calendar.submissionCalendar)
-  );
-  const combinedCounts = mergeDailyCounts(...yearMaps);
-  const rolling = buildRollingActivityCalendar(combinedCounts, now, 365);
-  const activeDayCount = rolling.days.filter((day) => day.count > 0).length;
-  const submissionCount = rolling.days.reduce((total, day) => total + day.count, 0);
-
-  return {
-    activityCalendar: rolling.days,
-    activityCalendarSource: "leetcode-profile",
-    activityLabel: "submissions",
-    activityCalendarFetchedAt: now.toISOString(),
-    activityCalendarStartDate: rolling.startDate,
-    activityCalendarEndDate: rolling.endDate,
-    activityCalendarCoverageComplete: successful.length === years.length,
-    activityCalendarYearsFetched: successful.map(({ year }) => year),
-    activityCalendarTotalSubmissions: submissionCount,
-    activityCalendarActiveDays: activeDayCount,
-    activityCalendarStreak: Number(successful.find(({ year }) => year === currentYear)?.calendar?.streak) || 0,
-  };
-}
 
 async function fetchLeetCodeContestStats(username) {
   const data = await leetcodeGraphQL(
@@ -570,9 +510,6 @@ async function syncCodeforces(username) {
 
   const unique = new Map();
   let acceptedSubmissions = 0;
-  const now = new Date();
-  const rawActivityCounts = countSubmissionsByDay(submissions, "creationTimeSeconds");
-  const rollingActivity = buildRollingActivityCalendar(rawActivityCounts, now, 365);
 
   for (const submission of submissions) {
     if (submission.verdict !== "OK" || !submission.problem) {
@@ -632,13 +569,6 @@ async function syncCodeforces(username) {
       fetchedSubmissionCount: submissions.length,
       historyLimited: submissions.length >= CODEFORCES_MAX_SUBMISSIONS,
       statsAreLifetimeTotals: false,
-      activityCalendar: rollingActivity.days,
-      activityCalendarSource: "codeforces-api",
-      activityLabel: "submissions",
-      activityCalendarFetchedAt: now.toISOString(),
-      activityCalendarStartDate: rollingActivity.startDate,
-      activityCalendarEndDate: rollingActivity.endDate,
-      activityCalendarCoverageComplete: submissions.length < CODEFORCES_MAX_SUBMISSIONS,
     },
     cursor: {},
     warning:
@@ -649,15 +579,11 @@ async function syncCodeforces(username) {
 }
 
 async function syncAtCoder(username, existingCursor = {}) {
-  const now = new Date();
-  const needsCalendarBackfill = existingCursor.activityCalendarVersion !== 1;
-  const backfillStartSecond = Math.floor((now.getTime() - 364 * 24 * 60 * 60 * 1000) / 1000);
-  const initialFrom = needsCalendarBackfill
-    ? backfillStartSecond
-    : Number(existingCursor.nextFromSecond) ||
-      (Number(existingCursor.lastFetchedEpochSecond)
-        ? Number(existingCursor.lastFetchedEpochSecond) + 1
-        : backfillStartSecond);
+  const initialFrom =
+    Number(existingCursor.nextFromSecond) ||
+    (Number(existingCursor.lastFetchedEpochSecond)
+      ? Number(existingCursor.lastFetchedEpochSecond) + 1
+      : Math.floor(Date.now() / 1000) - 90 * 24 * 60 * 60);
 
   let fromSecond = initialFrom;
   let morePagesRemain = false;
@@ -702,25 +628,6 @@ async function syncAtCoder(username, existingCursor = {}) {
   }
 
   const unique = new Map();
-  const currentStart = new Date(now);
-  currentStart.setUTCHours(0, 0, 0, 0);
-  currentStart.setUTCDate(currentStart.getUTCDate() - 364);
-  const currentStartKey = utcDateKey(currentStart);
-  const previousActivityCounts = {};
-  if (!needsCalendarBackfill && existingCursor.activityCounts && typeof existingCursor.activityCounts === "object") {
-    for (const [date, value] of Object.entries(existingCursor.activityCounts)) {
-      const count = Number(value);
-      if (date >= currentStartKey && date <= utcDateKey(now) && Number.isFinite(count) && count >= 0) {
-        previousActivityCounts[date] = count;
-      }
-    }
-  }
-  const scannedActivityCounts = countSubmissionsByDay(scanned, "epoch_second");
-  // Merge the previous calendar with newly fetched submission counts.
-  const mergedActivityCounts = mergeDailyCounts(previousActivityCounts, scannedActivityCounts);
-  for (const date of Object.keys(mergedActivityCounts)) {
-    if (date < currentStartKey || date > utcDateKey(now)) delete mergedActivityCounts[date];
-  }
 
   for (const submission of scanned) {
     if (submission.result !== "AC" || !submission.problem_id) {
@@ -775,22 +682,12 @@ async function syncAtCoder(username, existingCursor = {}) {
       pagesFetched,
       historyLimited: morePagesRemain,
       statsAreLifetimeTotals: false,
-      activityCalendar: buildRollingActivityCalendar(mergedActivityCounts, now, 365).days,
-      activityCalendarSource: "atcoder-api",
-      activityLabel: "submissions",
-      activityCalendarFetchedAt: now.toISOString(),
-      activityCalendarStartDate: buildRollingActivityCalendar(mergedActivityCounts, now, 365).startDate,
-      activityCalendarEndDate: buildRollingActivityCalendar(mergedActivityCounts, now, 365).endDate,
-      activityCalendarCoverageComplete: !morePagesRemain,
     },
     cursor: {
       lastFetchedEpochSecond: latestFetched,
       nextFromSecond: morePagesRemain ? fromSecond : null,
-      initialWindowStartedAt: needsCalendarBackfill
-        ? backfillStartSecond
-        : Number(existingCursor.initialWindowStartedAt) || initialFrom,
-      activityCalendarVersion: 1,
-      activityCounts: mergedActivityCounts,
+      initialWindowStartedAt: Number(existingCursor.initialWindowStartedAt) ||
+        initialFrom,
     },
     warning: morePagesRemain
       ? "AtCoder returned another full page. The initial history sync is incomplete; sync again to continue fetching from the saved cursor."
@@ -851,13 +748,6 @@ async function syncCodewars(username) {
   }
 
   const records = [...unique.values()];
-  const now = new Date();
-  const codewarsCounts = {};
-  for (const record of records) {
-    const date = utcDateKey(record.solvedAt);
-    if (date) codewarsCounts[date] = (codewarsCounts[date] || 0) + 1;
-  }
-  const codewarsCalendar = buildRollingActivityCalendar(codewarsCounts, now, 365);
 
   return {
     profile,
@@ -869,13 +759,6 @@ async function syncCodewars(username) {
       totalPages: totalPages,
       historyLimited: totalPages > pagesToFetch,
       statsAreLifetimeTotals: true,
-      activityCalendar: codewarsCalendar.days,
-      activityCalendarSource: "codewars-api",
-      activityLabel: "completed challenges",
-      activityCalendarFetchedAt: now.toISOString(),
-      activityCalendarStartDate: codewarsCalendar.startDate,
-      activityCalendarEndDate: codewarsCalendar.endDate,
-      activityCalendarCoverageComplete: totalPages <= pagesToFetch,
     },
     cursor: {},
     warning:
@@ -892,32 +775,20 @@ async function syncPlatform(providerId, username, cursor = {}) {
   }
   if (providerId === "leetcode") {
     const profile = await fetchProviderProfile("leetcode", username);
-    const [records, calendarResult] = await Promise.all([
-      fetchLeetCodeRecentSubmissions(profile.username),
-      fetchLeetCodeActivityCalendar(profile.username).catch((error) => ({
-        activityCalendarError: String(error?.message || "LeetCode activity calendar is unavailable.").slice(0, 240),
-      })),
-    ]);
-
-    const calendarWarning = calendarResult.activityCalendarError
-      ? " LeetCode's official contribution calendar could not be refreshed; the last saved calendar will be retained when one exists."
-      : (calendarResult.activityCalendarCoverageComplete === false
-        ? " LeetCode returned only part of the yearly calendar; the heatmap is marked as a partial profile snapshot."
-        : "");
+    const records = await fetchLeetCodeRecentSubmissions(profile.username);
 
     return {
       profile,
       records,
       stats: {
         ...profile.stats,
-        ...calendarResult,
         uniqueProblemsInRecentWindow: records.length,
         recentWindowSize: 20,
         statsAreLifetimeTotals: true,
       },
       cursor: {},
       warning:
-        "LeetCode profile totals are lifetime summary figures. The contribution heatmap uses public profile submission counts, while imported individual problem details are limited to the recent accepted-submission window." + calendarWarning,
+        "LeetCode's profile-wide solved counts are lifetime summary figures. Imported individual problem details are limited to the recent accepted-submission window.",
     };
   }
 
@@ -942,6 +813,5 @@ async function syncPlatform(providerId, username, cursor = {}) {
 
 module.exports = {
   fetchProviderProfile,
-  fetchLeetCodeActivityCalendar,
   syncPlatform,
 };

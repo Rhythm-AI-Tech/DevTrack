@@ -60,8 +60,8 @@ function Login() {
   return (
     <main className="auth-page" data-theme={theme}>
       <section className="auth-hero">
-        <Link to="/login" className="auth-brand" aria-label="DevTracker home">
-          <img src={devtrackLogo} alt="DevTracker" className="auth-brand-logo" />
+        <Link to="/login" className="auth-brand" aria-label="DevTrack home">
+          <img src={devtrackLogo} alt="DevTrack" className="auth-brand-logo" />
         </Link>
 
         <div className="hero-content">
@@ -127,7 +127,7 @@ function Login() {
                 <span>
                   <i /> All systems ready
                 </span>
-                <span>● DevTracker</span>
+                <span>● DevTrack</span>
               </div>
             </div>
 
@@ -220,7 +220,7 @@ function Login() {
             </div>
 
             <button className="auth-button" type="submit" disabled={loading}>
-              <span>{loading ? "Signing in..." : "Sign in to DevTracker"}</span>
+              <span>{loading ? "Signing in..." : "Sign in to DevTrack"}</span>
             </button>
           </form>
 
@@ -235,7 +235,7 @@ function Login() {
 
         <div className="form-bottom">
           <span>Made for curious minds.</span>
-          <span>DevTracker ©</span>
+          <span>DEVTRACK ©</span>
         </div>
       </section>
     </main>

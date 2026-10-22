@@ -1,6 +1,6 @@
 const express = require("express");
 const authMiddleware = require("../middleware/authMiddleware");
-const { chat, chatStream } = require("../controllers/aiController");
+const { chat } = require("../controllers/aiController");
 
 const router = express.Router();
 const recentRequests = new Map();
@@ -8,8 +8,7 @@ const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 12;
 
 router.use(authMiddleware);
-
-function limitChatRequests(req, res, next) {
+router.post("/chat", (req, res, next) => {
   const key = String(req.user._id);
   const now = Date.now();
   const recent = (recentRequests.get(key) || []).filter((timestamp) => now - timestamp < WINDOW_MS);
@@ -23,10 +22,7 @@ function limitChatRequests(req, res, next) {
       if (!timestamps.some((timestamp) => now - timestamp < WINDOW_MS)) recentRequests.delete(userKey);
     }
   }
-  return next();
-}
-
-router.post("/chat", limitChatRequests, chat);
-router.post("/chat/stream", limitChatRequests, chatStream);
+  return chat(req, res, next);
+});
 
 module.exports = router;

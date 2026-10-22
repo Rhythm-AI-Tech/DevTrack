@@ -21,7 +21,7 @@ function getCount(stats, key) {
   return Math.max(0, Number(value));
 }
 
-function ActivityBars({ history = [], platformLabel, activityLabel = "activity events" }) {
+function ActivityBars({ history = [], platformLabel }) {
   const points = history.slice(-30);
   const max = Math.max(1, ...points.map((item) => Number(item.count) || 0));
 
@@ -31,16 +31,16 @@ function ActivityBars({ history = [], platformLabel, activityLabel = "activity e
         <div>
           <span className="analytics-eyebrow">CONSISTENCY</span>
           <h2>{platformLabel} activity</h2>
-          <p>{activityLabel === "logged records" ? "DevTracker records over the last 30 days" : `Public profile ${activityLabel} over the last 30 days`}</p>
+          <p>Platform-specific recorded activity over the last 30 days</p>
         </div>
-        <span className="analytics-chart-key"><i /> {activityLabel}</span>
+        <span className="analytics-chart-key"><i /> Records</span>
       </div>
       {points.length ? (
         <div className="analytics-bars" role="img" aria-label={`${platformLabel} daily activity bar chart`}>
           {points.map((point) => {
             const count = Number(point.count) || 0;
             return (
-              <div className="analytics-bar-column" key={point.date} title={`${point.date}: ${count} ${activityLabel}`}>
+              <div className="analytics-bar-column" key={point.date} title={`${point.date}: ${count} ${platformLabel} record(s)`}>
                 <span className="analytics-bar-value">{count || ""}</span>
                 <div className="analytics-bar-track">
                   <i style={{ height: `${Math.max(count ? 8 : 2, count / max * 100)}%` }} />
@@ -101,28 +101,17 @@ function DifficultyDonut({ counts = {}, platformLabel }) {
   );
 }
 
-function useActivityCalendar(selectedPlatform, refreshKey = 0) {
+function ContributionHeatmap({ selectedPlatform }) {
   const [days, setDays] = useState([]);
   const [total, setTotal] = useState(0);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [source, setSource] = useState("devtracker-records");
-  const [sourceLabel, setSourceLabel] = useState("DevTracker saved problem records");
-  const [activityLabel, setActivityLabel] = useState("logged records");
-  const [coverageComplete, setCoverageComplete] = useState(true);
-  const [lastSyncedAt, setLastSyncedAt] = useState(null);
 
   useEffect(() => {
     if (!selectedPlatform) {
       setDays([]);
       setTotal(0);
-      setSource("devtracker-records");
-      setSourceLabel("DevTracker saved problem records");
-      setActivityLabel("logged records");
-      setCoverageComplete(true);
-      setLastSyncedAt(null);
       setMessage("Connect a platform in Settings to view its contribution activity.");
-      setLoading(false);
       return undefined;
     }
 
@@ -134,11 +123,6 @@ function useActivityCalendar(selectedPlatform, refreshKey = 0) {
     }).then((data) => {
       setDays(Array.isArray(data.days) ? data.days : []);
       setTotal(Number(data.total) || 0);
-      setSource(data.source || "devtracker-records");
-      setSourceLabel(data.sourceLabel || "DevTracker saved problem records");
-      setActivityLabel(data.activityLabel || "logged records");
-      setCoverageComplete(data.coverageComplete !== false);
-      setLastSyncedAt(data.lastSyncedAt || null);
       setMessage("");
     }).catch((error) => {
       if (error.name !== "AbortError") {
@@ -151,59 +135,22 @@ function useActivityCalendar(selectedPlatform, refreshKey = 0) {
     });
 
     return () => controller.abort();
-  }, [selectedPlatform, refreshKey]);
+  }, [selectedPlatform]);
 
-  return { days, total, message, loading, source, sourceLabel, activityLabel, coverageComplete, lastSyncedAt };
-}
-
-function ContributionHeatmap({
-  selectedPlatform,
-  days = [],
-  total = 0,
-  message = "",
-  loading = false,
-  source = "devtracker-records",
-  sourceLabel = "DevTracker saved problem records",
-  activityLabel = "logged records",
-  coverageComplete = true,
-  lastSyncedAt = null,
-}) {
   const weeks = useMemo(() => {
     if (!days.length) return [];
-    const firstDate = new Date(`${days[0].date}T00:00:00Z`);
     const padded = [...days];
     while (padded.length && new Date(`${padded[0].date}T00:00:00Z`).getUTCDay() !== 0) {
       const first = new Date(`${padded[0].date}T00:00:00Z`);
       first.setUTCDate(first.getUTCDate() - 1);
-      padded.unshift({ date: first.toISOString().slice(0, 10), count: 0, padding: true });
-    }
-    if (firstDate.getTime() && padded.length) {
-      const lastDate = new Date(`${padded[padded.length - 1].date}T00:00:00Z`);
-      while (lastDate.getUTCDay() !== 6) {
-        lastDate.setUTCDate(lastDate.getUTCDate() + 1);
-        padded.push({ date: lastDate.toISOString().slice(0, 10), count: 0, padding: true });
-      }
+      padded.unshift({ date: first.toISOString().slice(0, 10), count: 0 });
     }
     const grouped = [];
-    for (let index = 0; index < padded.length; index += 7) grouped.push(padded.slice(index, index + 7));
+    for (let index = 0; index < padded.length; index += 7) {
+      grouped.push(padded.slice(index, index + 7));
+    }
     return grouped;
   }, [days]);
-
-  const maxDailyCount = useMemo(
-    () => Math.max(0, ...days.map((day) => Number(day.count) || 0)),
-    [days]
-  );
-
-  const monthLabels = useMemo(() => weeks.map((week) => {
-    const firstOfMonth = week.find((day) => day?.date?.slice(8, 10) === "01");
-    if (!firstOfMonth) return "";
-    const date = new Date(`${firstOfMonth.date}T00:00:00Z`);
-    return new Intl.DateTimeFormat("en", { month: "short", timeZone: "UTC" }).format(date);
-  }), [weeks]);
-
-  const syncDateLabel = lastSyncedAt && !Number.isNaN(new Date(lastSyncedAt).getTime())
-    ? ` · synced ${new Date(lastSyncedAt).toLocaleDateString()}`
-    : "";
 
   return (
     <section className="analytics-card analytics-heatmap-card">
@@ -211,36 +158,25 @@ function ContributionHeatmap({
         <div>
           <span className="analytics-eyebrow">CONTRIBUTION HISTORY</span>
           <h2>{selectedPlatform || "Platform"} activity</h2>
-          <p>{source === "platform-profile" ? `${sourceLabel} · last 365 days${syncDateLabel}` : `${sourceLabel} · last 365 days`}</p>
+          <p>Only saved records associated with the selected platform · last 365 days</p>
         </div>
-        <strong className="analytics-heatmap-total">{total.toLocaleString()} <small>{activityLabel}</small></strong>
+        <strong className="analytics-heatmap-total">{total.toLocaleString()} <small>records</small></strong>
       </div>
       {message && <p className="analytics-empty" role="status">{message}</p>}
       {loading && <p className="analytics-empty" role="status">Loading {selectedPlatform} activity…</p>}
-      {!loading && normalizePlatform(selectedPlatform) === "leetcode" && source !== "platform-profile" && !message && (
-        <p className="analytics-calendar-notice" role="status">This is currently based on DevTracker logs. Use Sync &amp; refresh to request the public LeetCode submission calendar.</p>
-      )}
-      {source === "platform-profile" && !coverageComplete && (
-        <p className="analytics-calendar-notice" role="status">This platform returned a partial public activity window. Use Sync &amp; refresh to update the available history.</p>
-      )}
       <div className="analytics-heatmap-scroll">
-        <div className="analytics-heatmap-months" aria-hidden="true">
-          {monthLabels.map((label, index) => <span key={`month-${index}`} className="analytics-heatmap-month">{label}</span>)}
-        </div>
         <div className="analytics-heatmap">
           {weeks.map((week, index) => (
             <div className="analytics-heatmap-week" key={`week-${index}`}>
               {week.map((day) => {
                 const count = Number(day.count) || 0;
-                const level = count > 0 && maxDailyCount > 0
-                  ? Math.min(4, Math.max(1, Math.ceil((count / maxDailyCount) * 4)))
-                  : 0;
+                const level = Math.min(4, count ? Math.ceil(Math.log2(count + 1)) : 0);
                 return (
                   <span
                     key={day.date}
                     className={`analytics-heatmap-day level-${level}`}
-                    title={`${day.date}: ${count} ${activityLabel}`}
-                    aria-label={`${day.date}: ${count} ${activityLabel}`}
+                    title={`${day.date}: ${count} ${selectedPlatform} record(s)`}
+                    aria-label={`${day.date}: ${count} records`}
                   />
                 );
               })}
@@ -359,7 +295,7 @@ function PlatformMetrics({ problems = [], verifiedPlatforms = [], selectedPlatfo
             <div className="platform-summary-number"><strong>{metric(rating)}</strong><span>Current contest rating</span></div>
             <div className="platform-summary-number"><strong>{metric(maxRating)}</strong><span>Historical maximum rating</span></div>
             <div className="platform-summary-number"><strong>{rank || "Unrated"}</strong><span>Official Codeforces rank</span></div>
-            <div className="platform-summary-number"><strong>{stats.maxRank || "Unrated"}</strong><span>Peak rank tier</span></div>
+            <div className="platform-summary-number"><strong>{metric(totalSolved)}</strong><span>{stats.uniqueSolvedInFetchedHistory != null ? "Unique solved in fetched history" : "Solved / tracked count"}</span></div>
           </div>
           <p className="analytics-empty">Codeforces data is shown only for @{profile.username}. Rating values come from the latest saved official profile response; solved totals depend on sync support.</p>
         </div>
@@ -380,14 +316,13 @@ function PlatformMetrics({ problems = [], verifiedPlatforms = [], selectedPlatfo
 }
 
 export default function DashboardAnalytics({
+  history = [],
   counts = {},
   problems = [],
   verifiedPlatforms = [],
   selectedPlatform = "",
-  heatmapRefreshKey = 0,
 }) {
   const platformLabel = selectedPlatform || "Selected platform";
-  const activity = useActivityCalendar(selectedPlatform, heatmapRefreshKey);
   return (
     <div className="dashboard-analytics">
       <PlatformMetrics
@@ -396,10 +331,10 @@ export default function DashboardAnalytics({
         selectedPlatform={selectedPlatform}
       />
       <div className="analytics-top-grid">
-        <ActivityBars history={activity.days.slice(-30)} platformLabel={platformLabel} activityLabel={activity.activityLabel} />
+        <ActivityBars history={history} platformLabel={platformLabel} />
         <DifficultyDonut counts={counts} platformLabel={platformLabel} />
       </div>
-      <ContributionHeatmap selectedPlatform={selectedPlatform} {...activity} />
+      <ContributionHeatmap selectedPlatform={selectedPlatform} />
     </div>
   );
 }

@@ -6,6 +6,8 @@
 - Existing LeetCode/Codeforces profile ownership challenge remains the authoritative verification path; AtCoder and Codewars remain clearly labelled public-profile sources.
 - Manual-only GeeksforGeeks, CodeChef, and HackerRank integrations are removed from the visible provider registry because this codebase does not contain a reliable automated personal-history connector for them.
 - Protected cross-platform heatmap endpoint, populated only by imported/verified-sync records.
+- SVG profile README badge route.
+- Personal API key generation/revocation and API-key protected activity endpoint. Raw keys are not persisted.
 - Persistent dark/light theme toggle initialized before React startup.
 - Responsive daily activity bars, difficulty donut, and GitHub-style contribution grid.
 - Environment examples and deployment notes.
@@ -14,6 +16,8 @@
 - Live external-platform requests were not run as part of this offline archive refactor. External services may change their profile fields, API behavior, rate limits, or markup.
 - AI calls require a real `GEMINI_API_KEY`, a reachable Gemini API, and installed server dependencies. No secret is bundled.
 - The current chat endpoint returns complete JSON responses; streaming is not implemented.
+- Webhook settings are persisted per user and problem creation triggers a best-effort HTTPS `problem.created` POST. Delivery retries and signed payloads are not implemented; test the feature with a receiver before relying on it.
+- API keys are displayed only immediately after generation and cannot be retrieved later. The API currently exposes recent activity records (up to 500), not arbitrary private database collections.
 - The heatmap does not manufacture historical submission data. It reflects records imported into DevTracker by supported sync operations.
 
 
@@ -55,14 +59,11 @@ The authenticated Gemini chat retries transient 429/5xx/unavailable errors with 
 - Validation for this correction: the Create React App production build compiled successfully; 73 frontend JavaScript/JSX files parsed; 42 backend JavaScript files passed `node --check`; external LeetCode/Codeforces requests were not run as part of the archive build.
 
 
-## Theme and legacy integration cleanup (2026-10-22)
-
-- Normalized the pre-paint theme initializer to accept only saved `light` or `dark` values and retain the preference in `localStorage`.
-- Exposed the saved Codeforces peak rank tier alongside the current official rank and maximum rating. The existing LeetCode best-effort contest GraphQL parser was retained.
-- The platform dropdown is driven only by persisted linked profiles for the signed-in account. The Dashboard's selected profile continues to scope its stats, problem mix, activity chart, and heatmap; the AI controller was preserved byte-for-byte in this cleanup.
-
-## Follow-up fixes (October 2026)
-- Dashboard API now returns an account-wide `currentStreak` calculated from saved problem/activity dates, using the browser's IANA time zone supplied by the navbar. The header refreshes after coding activity, on focus/visibility changes, and periodically.
-- Dark-mode contrast overrides correct the light `profile total` badge and hard-coded white DSA topic rows; the same surfaces receive explicit light-theme colors.
-- The AI assistant panel is slightly larger and its mascot avatar is enlarged modestly.
-- `server/src/controllers/aiController.js` was overwritten from the separately supplied AI-controller ZIP.
+## UI and achievement refinement
+- Rebuilt the workspace sidebar as a coherent high-contrast zinc surface with readable inactive text, a clear active indicator, custom focus rings, and responsive compact navigation.
+- Replaced the Dashboard platform context native menu with a themed accessible dropdown. Its options are limited to linked profiles with a saved sync timestamp or persisted profile-stat snapshot; dashboard cards, graphs and heatmap continue to share the same selected platform state.
+- Applied dark color-scheme, consistent padding, contrast, focus and arrow styling to remaining native form selects and inputs.
+- Added the authenticated `/api/achievements` endpoint and persisted unlocked badge records on the user schema. Current unlock evaluation uses user-scoped saved problems/activity dates, LeetCode lifetime stats when present, explicitly recorded languages, connected profiles, completed goals and projects.
+- Added an optional language field to logged problems so the Polyglot milestone depends on real language selections; existing records remain `Unknown` and do not falsely count toward the badge.
+- Added a responsive achievement grid to the Dashboard and Settings while retaining the existing API credentials console, copy/reveal/regenerate/revoke workflow, webhook controls, and public badge preview.
+- LeetCode contest-rating parsing and authenticated AI context already existed in the uploaded project and have been retained rather than duplicated. HackerEarth remains absent from Coding page platform options.

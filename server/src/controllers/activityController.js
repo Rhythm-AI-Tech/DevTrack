@@ -1,5 +1,4 @@
 const Problem = require("../models/Problem");
-const { buildRollingActivityCalendar } = require("../utils/activityCalendar");
 
 const PLATFORM_ALIASES = {
   leetcode: { label: "LeetCode", names: ["LeetCode"] },
@@ -13,51 +12,6 @@ const PLATFORM_ALIASES = {
 const normalizePlatform = (value) =>
   String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 
-function getProviderState(user, platformId) {
-  const providers = user?.integrations?.providers;
-  if (providers && typeof providers.get === "function") return providers.get(platformId) || null;
-  return providers?.[platformId] || null;
-}
-
-function getProfileCalendar(state, now = new Date()) {
-  if (!state || !["verified", "public"].includes(state.mode) || !String(state.username || "").trim()) return null;
-  const stats = state.stats || {};
-  if (!Array.isArray(stats.activityCalendar) || !stats.activityCalendarSource) return null;
-
-  const countByDate = {};
-  for (const item of stats.activityCalendar) {
-    const date = String(item?.date || "");
-    const count = Number(item?.count);
-    if (/^\d{4}-\d{2}-\d{2}$/.test(date) && Number.isFinite(count) && count >= 0) {
-      countByDate[date] = count;
-    }
-  }
-
-  const calendar = buildRollingActivityCalendar(countByDate, now, 365);
-  const total = calendar.days.reduce((sum, day) => sum + day.count, 0);
-  const labels = {
-    "leetcode-profile": { sourceLabel: "LeetCode public profile submissions", activityLabel: "submissions" },
-    "codeforces-api": { sourceLabel: "Codeforces public submission history", activityLabel: "submissions" },
-    "atcoder-api": { sourceLabel: "AtCoder public submission history", activityLabel: "submissions" },
-    "codewars-api": { sourceLabel: "Codewars completed challenges", activityLabel: "completed challenges" },
-  };
-  const display = labels[stats.activityCalendarSource] || {
-    sourceLabel: `${PLATFORM_ALIASES[normalizePlatform(state?.platform)]?.label || "Platform"} activity calendar`,
-    activityLabel: stats.activityLabel || "activity events",
-  };
-
-  return {
-    ...calendar,
-    total,
-    source: "platform-profile",
-    sourceLabel: display.sourceLabel,
-    activityLabel: stats.activityLabel || display.activityLabel,
-    coverageComplete: stats.activityCalendarCoverageComplete !== false,
-    lastSyncedAt: state.lastSyncedAt || stats.activityCalendarFetchedAt || null,
-    officialProfileSource: true,
-  };
-}
-
 const getHeatmap = async (req, res) => {
   try {
     const platformId = normalizePlatform(req.query.platform);
@@ -70,27 +24,9 @@ const getHeatmap = async (req, res) => {
       });
     }
 
-    const state = getProviderState(req.user, platformId);
-    const profileCalendar = getProfileCalendar(state);
-    if (profileCalendar) {
-      return res.json({
-        success: true,
-        platform: platform.label,
-        days: profileCalendar.days,
-        total: profileCalendar.total,
-        source: profileCalendar.source,
-        sourceLabel: profileCalendar.sourceLabel,
-        activityLabel: profileCalendar.activityLabel,
-        coverageComplete: profileCalendar.coverageComplete,
-        lastSyncedAt: profileCalendar.lastSyncedAt,
-        officialProfileSource: true,
-      });
-    }
-
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-    const start = new Date(today);
-    start.setUTCDate(start.getUTCDate() - 364);
+    const since = new Date();
+    since.setUTCDate(since.getUTCDate() - 364);
+    since.setUTCHours(0, 0, 0, 0);
 
     const rows = await Problem.aggregate([
       {
@@ -98,7 +34,7 @@ const getHeatmap = async (req, res) => {
           user: req.user._id,
           platform: { $in: platform.names },
           origin: { $in: ["manual", "imported", "verified-sync", "public-profile"] },
-          solvedAt: { $gte: start },
+          solvedAt: { $gte: since },
         },
       },
       {
@@ -116,19 +52,21 @@ const getHeatmap = async (req, res) => {
       { $sort: { _id: 1 } },
     ]);
 
-    const byDay = Object.fromEntries(rows.map((row) => [row._id, row.count]));
-    const calendar = buildRollingActivityCalendar(byDay, new Date(), 365);
+    const byDay = new Map(rows.map((row) => [row._id, row.count]));
+    const days = [];
+
+    for (let offset = 0; offset < 365; offset += 1) {
+      const date = new Date(since);
+      date.setUTCDate(date.getUTCDate() + offset);
+      const key = date.toISOString().slice(0, 10);
+      days.push({ date: key, count: byDay.get(key) || 0 });
+    }
+
     return res.json({
       success: true,
       platform: platform.label,
-      days: calendar.days,
-      total: calendar.days.reduce((sum, day) => sum + day.count, 0),
-      source: "devtracker-records",
-      sourceLabel: "DevTracker saved problem records",
-      activityLabel: "logged records",
-      coverageComplete: true,
-      lastSyncedAt: null,
-      officialProfileSource: false,
+      days,
+      total: days.reduce((sum, day) => sum + day.count, 0),
     });
   } catch (error) {
     console.error("Activity heatmap error:", error.message);
@@ -139,4 +77,4 @@ const getHeatmap = async (req, res) => {
   }
 };
 
-module.exports = { getHeatmap, getProfileCalendar };
+module.exports = { getHeatmap };

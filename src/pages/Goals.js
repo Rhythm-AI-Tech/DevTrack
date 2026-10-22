@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { apiRequest } from "../utils/api";
 import { invalidateDashboard } from "../features/dashboard/dashboardSlice";
@@ -15,14 +14,12 @@ const blankGoal = () => ({
 
 const goalKindLabel = {
   "weekly-problems": "Problems logged this week",
-  "coding-streak": "DevTracker coding streak",
+  "coding-streak": "DevTrack coding streak",
   custom: "Personal target",
 };
 
 function Goals() {
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
-  const focusGoalId = searchParams.get("focus");
 
   const [goals, setGoals] = useState([]);
   const [status, setStatus] = useState("loading");
@@ -49,15 +46,6 @@ function Goals() {
   useEffect(() => {
     load();
   }, []);
-  useEffect(() => {
-    if (status !== "ready" || !focusGoalId) return undefined;
-    const frame = window.requestAnimationFrame(() => {
-      const target = Array.from(document.querySelectorAll("[data-goal-id]"))
-        .find((element) => element.getAttribute("data-goal-id") === focusGoalId);
-      target?.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [status, focusGoalId, goals.length]);
 
   const updateForm = (field, value) =>
     setForm((previous) => ({
@@ -200,7 +188,7 @@ function Goals() {
           </span>
           <h1>Goals</h1>
           <p>
-            Weekly problem and streak goals use records in your DevTracker
+            Weekly problem and streak goals use records in your DevTrack
             Coding log.
           </p>
         </div>
@@ -261,7 +249,7 @@ function Goals() {
                 Problems logged this week
               </option>
               <option value="coding-streak">
-                DevTracker coding streak
+                DevTrack coding streak
               </option>
               <option value="custom">Personal target</option>
             </select>
@@ -341,7 +329,7 @@ function Goals() {
       ) : (
         <section className="goal-grid" aria-label="Goals">
           {goals.map((goal) => (
-            <article className={`goal-card${focusGoalId === String(goal._id) ? " search-target-highlight" : ""}`} key={goal._id} data-goal-id={String(goal._id)}>
+            <article className="goal-card" key={goal._id}>
               <div className="goal-card-top">
                 <span className={`goal-status ${goal.status}`}>
                   {goal.status}

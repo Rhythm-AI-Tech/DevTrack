@@ -9,6 +9,7 @@ import {
 import "./Dashboard.css";
 import DashboardAnalytics from "../components/DashboardAnalytics";
 import PlatformDropdown from "../components/PlatformDropdown";
+import DeveloperAchievements from "../components/DeveloperAchievements";
 
 const API_URL =
   process.env.REACT_APP_API_URL || "http://localhost:5000/api";
@@ -111,7 +112,6 @@ function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshMessage, setRefreshMessage] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState("");
-  const [heatmapRefreshKey, setHeatmapRefreshKey] = useState(0);
 
   const loadDashboard = useCallback(async (signal) => {
     const token = localStorage.getItem("devtrack_token");
@@ -203,7 +203,9 @@ function Dashboard() {
         const allowed = Boolean(PLATFORM_NAMES[id]);
         const linked = ["verified", "public"].includes(item.mode);
         const hasHandle = Boolean(String(item.username || "").trim());
-        if (!allowed || !linked || !hasHandle || seen.has(id)) return false;
+        const storedStats = item.stats && typeof item.stats === "object" && Object.keys(item.stats).length > 0;
+        const hasSuccessfulSnapshot = Boolean(item.lastSyncedAt || storedStats);
+        if (!allowed || !linked || !hasHandle || !hasSuccessfulSnapshot || seen.has(id)) return false;
         seen.add(id);
         return true;
       })
@@ -310,6 +312,31 @@ function Dashboard() {
       ? trackedProblemCount
       : Number(savedProfileSolved);
 
+  const selectedHistory = useMemo(() => {
+    if (!selectedProfile) return [];
+    const byPlatform = stats?.activityHistoryByPlatform?.[selectedProfile.id];
+
+    if (Array.isArray(byPlatform) && byPlatform.length) {
+      return byPlatform.slice(-30);
+    }
+
+    const counts = new Map();
+    for (const problem of filteredProblems) {
+      if (!problem.solvedAt) continue;
+      const date = new Date(problem.solvedAt);
+      if (Number.isNaN(date.getTime())) continue;
+      const key = date.toISOString().slice(0, 10);
+      counts.set(key, (counts.get(key) || 0) + 1);
+    }
+    return Array.from({ length: 30 }, (_, offset) => {
+      const date = new Date();
+      date.setUTCHours(0, 0, 0, 0);
+      date.setUTCDate(date.getUTCDate() - (29 - offset));
+      const key = date.toISOString().slice(0, 10);
+      return { date: key, count: counts.get(key) || 0 };
+    });
+  }, [selectedProfile, filteredProblems, stats]);
+
   const currentStreak = useMemo(() => {
     const serverPlatformStreak = selectedProfile
       ? stats?.currentStreakByPlatform?.[selectedProfile.id]
@@ -350,7 +377,6 @@ function Dashboard() {
     selectedProfileStats.maxRating ??
     selectedProfileStats.highestRating ??
     selectedProfileStats.maxRatingReached;
-  const maximumRank = selectedProfileStats.maxRank ?? selectedProfileStats.highestRank ?? null;
   const officialRank =
     selectedProfileStats.rankName ??
     selectedProfileStats.rank ??
@@ -377,7 +403,7 @@ function Dashboard() {
         { label: "Total solved", value: selectedSolvedTotal.toLocaleString(), description: savedProfileSolved === undefined ? "Tracked LeetCode records only" : "LeetCode lifetime accepted problems", icon: "code", color: "violet" },
         { label: "Current streak", value: currentStreak.toLocaleString(), description: "LeetCode activity recorded in DevTracker", icon: "github", color: "blue" },
         { label: "Contest rating", value: contestRating == null ? "—" : Math.round(Number(contestRating)).toLocaleString(), description: Number(selectedProfileStats.contestsAttended || selectedProfileStats.attendedContestsCount || 0) ? `${selectedProfileStats.contestsAttended ?? selectedProfileStats.attendedContestsCount} contests attended` : "LeetCode contest profile rating", icon: "flame", color: "orange" },
-        { label: "Global contest rank", value: globalRanking == null ? "—" : Number(globalRanking).toLocaleString(), description: topPercentage == null ? "LeetCode contest ranking" : `Top ${Number(topPercentage).toFixed(2)}% globally`, icon: "folder", color: "green" },
+        { label: "Global ranking", value: globalRanking == null ? "—" : Number(globalRanking).toLocaleString(), description: topPercentage == null ? "LeetCode contest ranking" : `Top ${Number(topPercentage).toFixed(2)}% globally`, icon: "folder", color: "green" },
       ];
     }
 
@@ -386,7 +412,7 @@ function Dashboard() {
         { label: selectedProfileStats.uniqueSolvedInFetchedHistory !== undefined ? "Unique solved · fetched history" : "Total solved", value: selectedSolvedTotal.toLocaleString(), description: selectedProfileStats.uniqueSolvedInFetchedHistory !== undefined ? "Distinct accepted problems in the fetched history, not a lifetime total" : (savedProfileSolved === undefined ? "Tracked Codeforces records only" : "Codeforces account statistics"), icon: "code", color: "violet" },
         { label: "Current streak", value: currentStreak.toLocaleString(), description: "Codeforces activity recorded in DevTracker", icon: "github", color: "blue" },
         { label: "Contest rating", value: contestRating == null ? "Unrated" : Math.round(Number(contestRating)).toLocaleString(), description: "Current Codeforces rating", icon: "flame", color: "orange" },
-        { label: "Official rank", value: officialRank || "Unrated", description: `Peak rating ${maximumRating == null ? "—" : Math.round(Number(maximumRating))} · peak tier ${maximumRank || "—"} · @${selectedProfile.username}`, icon: "folder", color: "green" },
+        { label: "Official rank", value: officialRank || "Unrated", description: `Peak rating ${maximumRating == null ? "—" : Math.round(Number(maximumRating))} · @${selectedProfile.username}`, icon: "folder", color: "green" },
       ];
     }
 
@@ -450,7 +476,6 @@ function Dashboard() {
       // Refresh both sources after sync.
       await dispatch(fetchProblems()).unwrap();
       await loadDashboard();
-      setHeatmapRefreshKey((current) => current + 1);
     } catch (err) {
       setRefreshMessage(
         err.message || "Refresh failed. Please try again."
@@ -581,12 +606,14 @@ function Dashboard() {
       </section>
 
       <DashboardAnalytics
+        history={selectedHistory}
         counts={difficultyCounts}
         problems={filteredProblems}
         verifiedPlatforms={verifiedPlatforms}
         selectedPlatform={selectedPlatform}
-        heatmapRefreshKey={heatmapRefreshKey}
       />
+
+      <DeveloperAchievements />
 
       <section className="dt-activity-card">
         <div className="dt-section-heading">
@@ -646,7 +673,7 @@ function Dashboard() {
       </section>
 
       <p className="dt-dashboard-footer">
-        All dashboard cards and charts are scoped to the selected saved platform. Profile lifetime totals are shown separately from individual records imported or logged in DevTracker.
+        All dashboard cards and charts are scoped to the selected saved platform. Profile lifetime totals are shown separately from individual records imported or logged in DevTrack.
       </p>
     </main>
   );
