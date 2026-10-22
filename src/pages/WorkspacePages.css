@@ -2221,3 +2221,18 @@ html[data-theme="dark"] .platform-import-error {
 }
 
  
+
+/* Briefly call out a record opened from global search. */
+.project-card.search-target-highlight,
+.goal-card.search-target-highlight {
+  outline: 2px solid var(--accent, #6366f1);
+  outline-offset: 3px;
+  animation: workspace-search-pulse 1.8s ease-out 1;
+}
+@keyframes workspace-search-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(99 102 241 / 0%); }
+  30% { box-shadow: 0 0 0 6px rgb(99 102 241 / 14%); }
+}
+:root[data-theme="dark"] .project-card.search-target-highlight,
+:root[data-theme="dark"] .goal-card.search-target-highlight { outline-color: #a5b4fc; }
+@media (prefers-reduced-motion: reduce) { .project-card.search-target-highlight, .goal-card.search-target-highlight { animation: none; } }

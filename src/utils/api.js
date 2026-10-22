@@ -39,7 +39,7 @@ export async function apiRequest(path, options = {}) {
     );
   } catch (error) {
     error.message =
-      "Cannot connect to the DevTrack API. Check that the backend is running and REACT_APP_API_URL is correct.";
+      "Cannot connect to the DevTracker API. Check that the backend is running and REACT_APP_API_URL is correct.";
     throw error;
   }
 

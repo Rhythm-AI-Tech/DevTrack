@@ -14,13 +14,8 @@ const githubRoutes = require("./routes/githubRoutes");
 const goalRoutes = require("./routes/goalRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const aiRoutes = require("./routes/aiRoutes");
-const badgeRoutes = require("./routes/badgeRoutes");
-const apiKeyRoutes = require("./routes/apiKeyRoutes");
-const achievementRoutes = require("./routes/achievementRoutes");
-const publicApiRoutes = require("./routes/publicApiRoutes");
 const activityRoutes = require("./routes/activityRoutes");
 const verifyRoutes = require("./routes/verify");
-const webhookRoutes = require("./routes/webhookRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,19 +39,14 @@ app.use("/api/github", githubRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/v1/ai", aiRoutes);
-app.use("/api/v1/badge", badgeRoutes);
-app.use("/api/v1/keys", apiKeyRoutes);
-app.use("/api/achievements", achievementRoutes);
-app.use("/api/v1/data", publicApiRoutes);
 app.use("/api/v1/activity", activityRoutes);
 app.use("/api/v1/verify", verifyRoutes);
-app.use("/api/v1/webhooks", webhookRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "DevTrack API is running",
+    message: "DevTracker API is running",
   });
 });
 
@@ -92,7 +82,7 @@ const startServer = async () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("Failed to start DevTrack server:", error.message);
+    console.error("Failed to start DevTracker server:", error.message);
     process.exit(1);
   }
 };

@@ -65,11 +65,6 @@
 :root[data-theme="dark"] .content .integration-card,
 :root[data-theme="dark"] .content .integration-stat,
 :root[data-theme="dark"] .content .settings-notice,
-:root[data-theme="dark"] .content .devhub-section,
-:root[data-theme="dark"] .content .devhub-panel,
-:root[data-theme="dark"] .content .devhub-webhook-row,
-:root[data-theme="dark"] .content .devhub-badge-preview,
-:root[data-theme="dark"] .content .devhub-api-example,
 :root[data-theme="dark"] .content .stats-grid > div,
 :root[data-theme="dark"] .content .problem-list,
 :root[data-theme="dark"] .content .problem-row,
@@ -91,8 +86,7 @@
 :root[data-theme="dark"] .content .platform-difficulty-track,
 :root[data-theme="dark"] .content .analytics-bar-track,
 :root[data-theme="dark"] .content .dt-progress-track,
-:root[data-theme="dark"] .content .workspace-empty.compact,
-:root[data-theme="dark"] .content .devhub-api-example {
+:root[data-theme="dark"] .content .workspace-empty.compact {
   background-color: #111114 !important;
   border-color: #2f2f35 !important;
 }
@@ -145,9 +139,7 @@
 :root[data-theme="dark"] .content .settings-heading p,
 :root[data-theme="dark"] .content .settings-platform-title p,
 :root[data-theme="dark"] .content .integration-overview span,
-:root[data-theme="dark"] .content .settings-page .settings-status,
-:root[data-theme="dark"] .content .devhub-footnote,
-:root[data-theme="dark"] .content .devhub-muted {
+:root[data-theme="dark"] .content .settings-page .settings-status {
   color: #a1a1aa !important;
 }
 
@@ -172,8 +164,6 @@
 :root[data-theme="dark"] .content input,
 :root[data-theme="dark"] .content textarea,
 :root[data-theme="dark"] .content select,
-:root[data-theme="dark"] .content .devhub-code-field,
-:root[data-theme="dark"] .content .devhub-secret-row input,
 :root[data-theme="dark"] .content .navbar-search input {
   background-color: #111114 !important;
   color: #fafafa !important;
@@ -207,8 +197,7 @@
 }
 :root[data-theme="dark"] .content .workspace-primary,
 :root[data-theme="dark"] .content .coding-primary-button,
-:root[data-theme="dark"] .content .settings-primary-button,
-:root[data-theme="dark"] .content .devhub-primary-button {
+:root[data-theme="dark"] .content .settings-primary-button {
   color: #ffffff !important;
 }
 
@@ -233,12 +222,6 @@
 :root[data-theme="dark"] .content .github-limitation {
   border-color: #2f2f35 !important;
   background-color: #111114 !important;
-}
-:root[data-theme="dark"] .content a:not(.workspace-primary):not(.settings-primary-button):not(.devhub-primary-button) {
-  color: #a5b4fc;
-}
-:root[data-theme="dark"] .content a:not(.workspace-primary):not(.settings-primary-button):not(.devhub-primary-button):hover {
-  color: #c7d2fe;
 }
 
 :root[data-theme="dark"] .sidebar {
@@ -378,3 +361,327 @@
   border-color: rgb(129 140 248 / 42%) !important;
   box-shadow: inset 3px 0 0 #818cf8 !important;
 }
+
+
+/* Theme parity for previously hard-coded dark surfaces (appended last intentionally). */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: #f7f8fb;
+  --surface: #ffffff;
+  --surface-soft: #f3f4f8;
+  --surface-raised: #ffffff;
+  --text-main: #18181b;
+  --text-muted: #626775;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --dt-ink: var(--text-main);
+  --dt-muted: var(--text-muted);
+  --dt-line: var(--border);
+  --dt-card: var(--surface);
+}
+
+:root[data-theme="light"] body,
+:root[data-theme="light"] #root,
+:root[data-theme="light"] .app,
+:root[data-theme="light"] .main,
+:root[data-theme="light"] .content {
+  background: var(--page-bg);
+  color: var(--text-main);
+}
+
+/* The navigation rail follows the workspace theme rather than remaining black in light mode. */
+:root[data-theme="light"] .sidebar {
+  background: var(--surface);
+  color: var(--text-main);
+  border-right-color: var(--border);
+  box-shadow: 5px 0 24px rgb(24 24 27 / 4%);
+}
+:root[data-theme="light"] .sidebar .logo { color: var(--text-main); }
+:root[data-theme="light"] .sidebar-nav a,
+:root[data-theme="light"] .sidebar-bottom a { color: var(--text-muted); }
+:root[data-theme="light"] .sidebar-nav a:hover,
+:root[data-theme="light"] .sidebar-bottom a:hover {
+  background: var(--surface-soft);
+  border-color: var(--border);
+  color: var(--text-main);
+}
+:root[data-theme="light"] .sidebar-nav a.active,
+:root[data-theme="light"] .sidebar-bottom a.active,
+:root[data-theme="light"] .sidebar-nav a[aria-current="page"],
+:root[data-theme="light"] .sidebar-bottom a[aria-current="page"] {
+  color: #3730a3;
+  background: linear-gradient(100deg, rgb(99 102 241 / 13%), rgb(99 102 241 / 5%));
+  border-color: rgb(99 102 241 / 30%);
+  box-shadow: inset 3px 0 0 #6366f1;
+}
+:root[data-theme="light"] .sidebar-nav-icon {
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+:root[data-theme="light"] .sidebar-nav a:hover .sidebar-nav-icon,
+:root[data-theme="light"] .sidebar-bottom a:hover .sidebar-nav-icon,
+:root[data-theme="light"] .sidebar-nav a.active .sidebar-nav-icon,
+:root[data-theme="light"] .sidebar-bottom a.active .sidebar-nav-icon,
+:root[data-theme="light"] .sidebar-nav a[aria-current="page"] .sidebar-nav-icon,
+:root[data-theme="light"] .sidebar-bottom a[aria-current="page"] .sidebar-nav-icon {
+  background: rgb(99 102 241 / 10%);
+  color: var(--accent);
+  border-color: var(--border-strong);
+}
+:root[data-theme="light"] .sidebar-bottom { border-top-color: var(--border); }
+
+/* The custom dashboard profile picker must stay readable in both themes. */
+:root[data-theme="light"] .dt-platform-picker-trigger {
+  color: var(--text-main);
+  background: var(--surface);
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 12px rgb(24 24 27 / 6%);
+}
+:root[data-theme="light"] .dt-platform-picker-trigger:hover:not(:disabled),
+:root[data-theme="light"] .dt-platform-picker.is-open .dt-platform-picker-trigger {
+  color: var(--text-main);
+  background: var(--surface-soft);
+  border-color: #818cf8;
+}
+:root[data-theme="light"] .dt-platform-picker-copy small { color: var(--text-muted); }
+:root[data-theme="light"] .dt-platform-picker-copy strong { color: var(--text-main); }
+:root[data-theme="light"] .dt-platform-picker-chevron {
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+:root[data-theme="light"] .dt-platform-picker-menu {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 18px 40px rgb(24 24 27 / 14%);
+}
+:root[data-theme="light"] .dt-platform-picker-option { color: var(--text-muted); }
+:root[data-theme="light"] .dt-platform-picker-option:hover,
+:root[data-theme="light"] .dt-platform-picker-option:focus-visible {
+  background: var(--surface-soft);
+  color: var(--text-main);
+  border-color: var(--border);
+}
+:root[data-theme="light"] .dt-platform-picker-option.is-selected {
+  color: #3730a3;
+  background: rgb(99 102 241 / 10%);
+  border-color: var(--border-strong);
+}
+:root[data-theme="light"] .dt-platform-option-mark {
+  background: var(--surface-soft);
+  color: var(--accent);
+  border-color: var(--border);
+}
+:root[data-theme="light"] .dt-platform-option-check { color: var(--accent); 
+
+  color: #3730a3;
+  background: var(--surface-soft);
+  border-color: var(--border-strong);
+}
+
+/* Shared dashboard components explicitly consume the selected theme's palette. */
+:root[data-theme="light"] .dt-dashboard { color: var(--text-main); }
+:root[data-theme="light"] .dt-page-heading h1,
+:root[data-theme="light"] .dt-section-heading h2 { color: var(--text-main); }
+:root[data-theme="light"] .dt-stat-card,
+:root[data-theme="light"] .dt-activity-card,
+:root[data-theme="light"] .analytics-card,
+:root[data-theme="light"] .platform-summary-number,
+:root[data-theme="light"] .platform-difficulty-item {
+  color: var(--text-main);
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+:root[data-theme="light"] .dt-stat-card h2,
+:root[data-theme="light"] .platform-summary-number strong,
+:root[data-theme="light"] .analytics-donut strong { color: var(--text-main); }
+:root[data-theme="light"] .dt-stat-label,
+:root[data-theme="light"] .dt-stat-description,
+:root[data-theme="light"] .analytics-card p,
+:root[data-theme="light"] .platform-summary-number span { color: var(--text-muted); }
+
+
+/* Profile metric readability: explicit contrast for both theme modes. */
+:root[data-theme="dark"] .content .platform-metrics-card,
+:root[data-theme="dark"] .content .platform-insights,
+:root[data-theme="dark"] .content .platform-profile-card,
+:root[data-theme="dark"] .content .dt-activity-card {
+  background: #18181b !important;
+  border-color: #2f2f35 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .platform-metrics-card *,
+:root[data-theme="dark"] .content .platform-insights *,
+:root[data-theme="dark"] .content .platform-profile-card *,
+:root[data-theme="dark"] .content .dt-activity-card * {
+  border-color: #3f3f46;
+}
+:root[data-theme="dark"] .content .platform-metrics-card strong,
+:root[data-theme="dark"] .content .platform-metrics-card h1,
+:root[data-theme="dark"] .content .platform-metrics-card h2,
+:root[data-theme="dark"] .content .platform-metrics-card h3,
+:root[data-theme="dark"] .content .platform-metrics-card .metric-value,
+:root[data-theme="dark"] .content .platform-metrics-card .stat-value,
+:root[data-theme="dark"] .content .platform-insights strong,
+:root[data-theme="dark"] .content .platform-profile-card strong {
+  color: #ffffff !important;
+}
+:root[data-theme="dark"] .content .platform-metrics-card p,
+:root[data-theme="dark"] .content .platform-metrics-card span,
+:root[data-theme="dark"] .content .platform-metrics-card label,
+:root[data-theme="dark"] .content .platform-insights p,
+:root[data-theme="dark"] .content .platform-insights span,
+:root[data-theme="dark"] .content .platform-profile-card p,
+:root[data-theme="dark"] .content .platform-profile-card span {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="light"] .content .platform-metrics-card strong,
+:root[data-theme="light"] .content .platform-metrics-card h1,
+:root[data-theme="light"] .content .platform-metrics-card h2,
+:root[data-theme="light"] .content .platform-metrics-card h3,
+:root[data-theme="light"] .content .platform-metrics-card .metric-value,
+:root[data-theme="light"] .content .platform-metrics-card .stat-value,
+:root[data-theme="light"] .content .platform-insights strong,
+:root[data-theme="light"] .content .platform-profile-card strong {
+  color: #18181b !important;
+}
+:root[data-theme="light"] .content .platform-metrics-card p,
+:root[data-theme="light"] .content .platform-metrics-card span,
+:root[data-theme="light"] .content .platform-metrics-card label,
+:root[data-theme="light"] .content .platform-insights p,
+:root[data-theme="light"] .content .platform-insights span,
+:root[data-theme="light"] .content .platform-profile-card p,
+:root[data-theme="light"] .content .platform-profile-card span {
+  color: #52525b !important;
+}
+
+:root[data-theme="dark"] .content .platform-metric-body,
+:root[data-theme="dark"] .content .platform-summary-number,
+:root[data-theme="dark"] .content .platform-summary-number strong,
+:root[data-theme="dark"] .content .platform-summary-number span,
+:root[data-theme="dark"] .content .analytics-legend,
+:root[data-theme="dark"] .content .analytics-legend strong,
+:root[data-theme="dark"] .content .analytics-legend span,
+:root[data-theme="dark"] .content .platform-profile-link {
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .platform-summary-number,
+:root[data-theme="dark"] .content .platform-metric-body > div,
+:root[data-theme="dark"] .content .analytics-legend > div {
+  background-color: #111114 !important;
+  border-color: #3f3f46 !important;
+}
+:root[data-theme="light"] .content .platform-summary-number strong,
+:root[data-theme="light"] .content .platform-metric-body strong,
+:root[data-theme="light"] .content .analytics-legend strong {
+  color: #18181b !important;
+}
+:root[data-theme="light"] .content .platform-summary-number span,
+:root[data-theme="light"] .content .platform-metric-body p,
+:root[data-theme="light"] .content .analytics-legend span {
+  color: #52525b !important;
+}
+
+/* Final contrast pass for legacy hard-coded surfaces called out in screenshots. */
+:root[data-theme="dark"] .content .dt-total-badge {
+  background: #27272a !important;
+  border: 1px solid #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .dt-total-badge strong {
+  color: #ffffff !important;
+}
+:root[data-theme="dark"] .content .dt-total-badge span {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="dark"] .content .dt-breakdown-row {
+  background: #111114 !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .dt-breakdown-info,
+:root[data-theme="dark"] .content .dt-difficulty-name {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="dark"] .content .dt-breakdown-info strong {
+  color: #ffffff !important;
+}
+:root[data-theme="dark"] .content .dt-percentage {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="dark"] .content .dsa-topic-list a {
+  background: #111114 !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .dsa-topic-list a span {
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .dsa-topic-list a strong {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="dark"] .content .dsa-topic-list a:hover {
+  background: #202024 !important;
+  border-color: #52525b !important;
+}
+:root[data-theme="dark"] .content .dsa-summary > article {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .dsa-summary > article span {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="dark"] .content .dsa-summary > article strong {
+  color: #ffffff !important;
+}
+:root[data-theme="dark"] .content .workspace-panel {
+  background: #18181b !important;
+  border-color: #2f2f35 !important;
+  color: #fafafa !important;
+}
+:root[data-theme="dark"] .content .workspace-section-heading h2,
+:root[data-theme="dark"] .content .workspace-form-heading h2,
+:root[data-theme="dark"] .content .workspace-panel h2,
+:root[data-theme="dark"] .content .workspace-panel h3 {
+  color: #ffffff !important;
+}
+:root[data-theme="dark"] .content .workspace-panel .workspace-section-heading p,
+:root[data-theme="dark"] .content .workspace-panel .workspace-eyebrow {
+  color: #d4d4d8 !important;
+}
+:root[data-theme="light"] .content .dt-total-badge {
+  background: #eeebff !important;
+  border: 1px solid #ddd6fe !important;
+  color: #3730a3 !important;
+}
+:root[data-theme="light"] .content .dt-total-badge strong { color: #312e81 !important; }
+:root[data-theme="light"] .content .dt-total-badge span { color: #4f46e5 !important; }
+:root[data-theme="light"] .content .dt-breakdown-row {
+  background: #ffffff !important;
+  border-color: #e4e4e7 !important;
+  color: #18181b !important;
+}
+:root[data-theme="light"] .content .dt-breakdown-info,
+:root[data-theme="light"] .content .dt-difficulty-name,
+:root[data-theme="light"] .content .dt-percentage { color: #52525b !important; }
+:root[data-theme="light"] .content .dt-breakdown-info strong { color: #18181b !important; }
+:root[data-theme="light"] .content .dsa-topic-list a {
+  background: #ffffff !important;
+  border-color: #e4e4e7 !important;
+  color: #18181b !important;
+}
+:root[data-theme="light"] .content .dsa-topic-list a span { color: #18181b !important; }
+:root[data-theme="light"] .content .dsa-topic-list a strong { color: #52525b !important; }
+:root[data-theme="light"] .content .workspace-panel {
+  background: #ffffff !important;
+  border-color: #e4e4e7 !important;
+  color: #18181b !important;
+}
+:root[data-theme="light"] .content .workspace-section-heading h2,
+:root[data-theme="light"] .content .workspace-form-heading h2,
+:root[data-theme="light"] .content .workspace-panel h2,
+:root[data-theme="light"] .content .workspace-panel h3 { color: #18181b !important; }
+:root[data-theme="light"] .content .workspace-panel .workspace-section-heading p,
+:root[data-theme="light"] .content .workspace-panel .workspace-eyebrow { color: #52525b !important; }

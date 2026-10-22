@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { apiRequest } from "../../utils/api";
+import { API_BASE_URL } from "../../utils/api";
 import "./AssistantChat.css";
 
 const shortcuts = [
@@ -31,18 +31,67 @@ function AssistantChat() {
     const message = String(rawMessage || "").trim();
     if (!message || sending) return;
     const priorMessages = messages.slice(-8).map(({ role, content }) => ({ role, content }));
-    setMessages((current) => [...current, { role: "user", content: message }]);
+    const assistantId = `assistant-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setMessages((current) => [
+      ...current,
+      { role: "user", content: message },
+      { role: "assistant", content: "", id: assistantId },
+    ]);
     setInput("");
     setError("");
     setSending(true);
+
     try {
-      const result = await apiRequest("/v1/ai/chat", {
+      const token = localStorage.getItem("devtrack_token");
+      const response = await fetch(`${API_BASE_URL}/v1/ai/chat/stream`, {
         method: "POST",
-        body: { message, history: priorMessages },
+        headers: {
+          Accept: "text/event-stream, application/json",
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ message, history: priorMessages }),
       });
-      setMessages((current) => [...current, result.message]);
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.message || `Assistant request failed (${response.status}).`);
+      }
+      if (!response.body) throw new Error("Your browser does not support streaming responses.");
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let receivedText = "";
+      const consumeEvent = (rawEvent) => {
+        const dataLines = rawEvent.split(/\r?\n/).filter((line) => line.startsWith("data:"));
+        if (!dataLines.length) return;
+        const payloadText = dataLines.map((line) => line.slice(5).trimStart()).join("\n");
+        let payload;
+        try { payload = JSON.parse(payloadText); } catch { return; }
+        if (payload.type === "delta" && typeof payload.text === "string") {
+          receivedText += payload.text;
+          setMessages((current) => current.map((item) => item.id === assistantId
+            ? { ...item, content: item.content + payload.text }
+            : item));
+        } else if (payload.type === "error") {
+          throw new Error(payload.message || "The assistant stream stopped unexpectedly.");
+        }
+      };
+
+      while (true) {
+        const { value, done } = await reader.read();
+        buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+        const events = buffer.split(/\r?\n\r?\n/);
+        buffer = events.pop() || "";
+        for (const event of events) consumeEvent(event);
+        if (done) break;
+      }
+      if (buffer.trim()) consumeEvent(buffer);
+      if (!receivedText) throw new Error("The assistant returned an empty response. Please try again.");
     } catch (requestError) {
       setError(requestError.message || "The assistant is unavailable right now.");
+      setMessages((current) => current.filter((item) => item.id !== assistantId || item.content));
     } finally {
       setSending(false);
     }
@@ -53,7 +102,7 @@ function AssistantChat() {
       {open && (
         <section className="assistant-chat-panel" aria-label="DevTracker Assistant" role="dialog" aria-modal="false">
           <header className="assistant-chat-header">
-            <div className="assistant-avatar" aria-hidden="true">✳</div>
+            <div className="assistant-avatar"><img src="/devtrack-ai-avatar.png" alt="DevTracker AI mascot" /></div>
             <div className="assistant-heading">
               <strong>DevTracker Assistant</strong>
               <span><i /> AI coding companion</span>
@@ -84,7 +133,7 @@ function AssistantChat() {
         </section>
       )}
       <button className={`assistant-launcher ${open ? "is-open" : ""}`} type="button" aria-label={open ? "Close DevTracker Assistant" : "Open DevTracker Assistant"} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-        {open ? "×" : <><span className="assistant-launcher-spark">✳</span><span className="assistant-launcher-label">Ask AI</span></>}
+        {open ? "×" : <><img className="assistant-launcher-avatar" src="/devtrack-ai-avatar.png" alt="" /><span className="assistant-launcher-label">Ask AI</span></>}
       </button>
     </div>
   );

@@ -1,5 +1,6 @@
 const Problem = require("../models/Problem");
 const { getProvider } = require("../services/platformRegistry");
+const { resolveTimeZone, buildCurrentStreak } = require("../utils/activityStreak");
 
 const SUPPORTED_PLATFORM_IDS = [
   "leetcode",
@@ -82,6 +83,7 @@ function buildStreakByPlatform(activityProblems, today) {
   return output;
 }
 
+
 const getDashboardStats = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -141,6 +143,8 @@ const getDashboardStats = async (req, res) => {
     today.setUTCHours(0, 0, 0, 0);
     const activityHistoryByPlatform = buildHistoryByPlatform(activityProblems, today);
     const currentStreakByPlatform = buildStreakByPlatform(activityProblems, today);
+    const timeZone = resolveTimeZone(req.query?.timeZone);
+    const currentStreak = buildCurrentStreak(activityProblems, new Date(), timeZone);
 
     const recentProblems = manualProblems.slice(0, 6);
     const difficultyStats = manualProblems.reduce(
@@ -163,6 +167,8 @@ const getDashboardStats = async (req, res) => {
         verifiedPlatforms,
         activityHistoryByPlatform,
         currentStreakByPlatform,
+        currentStreak,
+        streakTimeZone: timeZone,
       },
     });
   } catch (error) {

@@ -62,18 +62,6 @@ const providerStateSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const achievementBadgeSchema = new mongoose.Schema(
-  {
-    id: { type: String, required: true, trim: true },
-    name: { type: String, required: true, trim: true, maxlength: 80 },
-    description: { type: String, required: true, trim: true, maxlength: 240 },
-    icon: { type: String, required: true, maxlength: 16 },
-    unlockedAt: { type: Date, default: Date.now },
-    metricValue: { type: Number, default: 0 },
-  },
-  { _id: false },
-);
-
 const integrationsSchema = new mongoose.Schema(
   {
     providers: {
@@ -122,11 +110,6 @@ const userSchema = new mongoose.Schema(
       default: () => ({}),
     },
 
-    achievementBadges: {
-      type: [achievementBadgeSchema],
-      default: [],
-    },
-
     githubUsername: {
       type: String,
       trim: true,
@@ -138,13 +121,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["dark", "light"],
       default: "dark",
-    },
-    webhook: {
-      enabled: { type: Boolean, default: false },
-      targetUrl: { type: String, default: "", trim: true, maxlength: 2048 },
-      updatedAt: { type: Date, default: null },
-      lastDeliveryAt: { type: Date, default: null },
-      lastDeliveryStatus: { type: String, default: "", maxlength: 300 },
     },
   },
   { timestamps: true },

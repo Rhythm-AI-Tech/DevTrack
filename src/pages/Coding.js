@@ -209,6 +209,7 @@ function Coding() {
         setFormData(initialForm());
         setFormOpen(false);
         setSuccessMessage("Problem saved to your account.");
+        window.dispatchEvent(new Event("devtrack:activity-updated"));
         dispatch(fetchProblems());
       } else {
         setSubmitError(getSaveError(result.payload));
@@ -289,7 +290,7 @@ function Coding() {
           <div className="coding-form-heading">
             <div>
               <h2>Record a solved problem</h2>
-              <p>Add a problem to your DevTrack log.</p>
+              <p>Add a problem to your DevTracker log.</p>
             </div>
           </div>
 
@@ -431,7 +432,7 @@ function Coding() {
         </div>
 
         <div className="coding-stat-card">
-          <span>DevTrack streak</span>
+          <span>DevTracker streak</span>
           <strong>{currentStreak}</strong>
         </div>
 

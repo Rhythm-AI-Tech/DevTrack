@@ -458,7 +458,7 @@ const disconnect = async (req, res) => {
   return res.json({
     success: true,
     message:
-      "LeetCode disconnected. Previously imported problem records were kept in DevTrack.",
+      "LeetCode disconnected. Previously imported problem records were kept in DevTracker.",
   });
 };
 

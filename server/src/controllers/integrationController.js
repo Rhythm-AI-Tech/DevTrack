@@ -110,7 +110,7 @@ const listProviders = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 
@@ -154,7 +154,7 @@ const getStatus = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 
@@ -232,7 +232,7 @@ const connect = async (req, res) => {
       if (!user) {
         return res.status(404).json({
           success: false,
-          message: "DevTrack user not found.",
+          message: "DevTracker user not found.",
         });
       }
 
@@ -286,7 +286,7 @@ const connect = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 
@@ -315,7 +315,7 @@ const connect = async (req, res) => {
       verificationExpiresAt,
       verificationField: provider.verificationField,
       message:
-        `Add the verification code to your ${provider.verificationField} field, save the profile, then verify ownership in DevTrack.`,
+        `Add the verification code to your ${provider.verificationField} field, save the profile, then verify ownership in DevTracker.`,
     });
   } catch (error) {
     return res.status(422).json({
@@ -437,7 +437,7 @@ const cancelVerification = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 
@@ -495,7 +495,7 @@ const sync = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 
@@ -580,7 +580,7 @@ const sync = async (req, res) => {
 
     const updatedState = {
       ...state,
-      stats: result.stats || {},
+      stats: { ...(state.stats || {}), ...(result.stats || {}) },
       cursor: result.cursor || state.cursor || {},
       lastSyncedAt: new Date(),
       lastSyncError: "",
@@ -597,7 +597,7 @@ const sync = async (req, res) => {
       imported,
       updated,
       scanned: result.records.length,
-      stats: result.stats || {},
+      stats: updatedState.stats || {},
       lastSyncedAt: updatedState.lastSyncedAt,
       warning: result.warning || "",
       message:
@@ -656,7 +656,7 @@ const disconnect = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "DevTrack user not found.",
+        message: "DevTracker user not found.",
       });
     }
 

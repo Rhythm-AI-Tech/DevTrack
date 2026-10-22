@@ -7,7 +7,7 @@ function ProtectedRoute() {
   if (!authChecked) {
     return (
       <div style={{ padding: "40px", textAlign: "center" }}>
-        Verifying your DevTrack session...
+        Verifying your DevTracker session...
       </div>
     );
   }

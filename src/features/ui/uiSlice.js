@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const savedTheme = localStorage.getItem("devtrack-theme");
+function readSavedTheme() {
+  try {
+    const savedTheme = localStorage.getItem("devtrack_theme");
+    return savedTheme === "light" ? "light" : "dark";
+  } catch {
+    return "dark";
+  }
+}
 
 const initialState = {
-  theme: savedTheme === "dark" ? "dark" : "light",
+  theme: readSavedTheme(),
 };
 
 const uiSlice = createSlice({
@@ -11,7 +18,7 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     setTheme(state, action) {
-      state.theme = action.payload === "dark" ? "dark" : "light";
+      state.theme = action.payload === "light" ? "light" : "dark";
     },
   },
 });
