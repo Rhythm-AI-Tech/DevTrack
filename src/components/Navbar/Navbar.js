@@ -363,7 +363,6 @@ function Navbar() {
             aria-label="Search DevTracker"
             aria-autocomplete="list"
             aria-controls="navbar-search-results"
-            aria-expanded={searchOpen}
             aria-activedescendant={activeSearchIndex >= 0 ? `navbar-search-result-${activeSearchIndex}` : undefined}
             value={searchQuery}
             onFocus={() => setSearchOpen(true)}
